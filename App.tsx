@@ -1,77 +1,61 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { StyleSheet, Text, View } from 'react-native';
 import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
 import { StatsScreen } from './src/app/screens/StatsScreen';
-import { Icon } from 'react-native-vector-icons/Icon';
+import { Ionicons } from '@expo/vector-icons';
 
-const HomeStack = createStackNavigator({
-  Home: { screen: HomeScreen },
-});
-
-const StatsStack = createStackNavigator({
-  Search: { screen: StatsScreen },
-});
-
-const SettingsStack = createStackNavigator({
-  Profile: { screen: SettingsScreen },
-});
-
-const TabNavigator = createBottomTabNavigator(
+const AppNavigator = createBottomTabNavigator(
   {
-    Home: HomeStack,
-    Stats: StatsStack,
-    Settings: SettingsStack
+    Home: { screen: HomeScreen },
+    Stats: { screen: StatsScreen },
+    Settings: { screen: SettingsScreen }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: () => {
         const { routeName } = navigation.state;
+        let iconName =  '';
         if (routeName === 'Home') {
-          return <Icon
-          name='home'
-          color='#000000'
-        />
+          iconName = 'home';
         } else if (routeName === 'Stats') {
-          return <Icon
-          name='trending-up'
-          color='#000000'
-        />
+          iconName = 'trending-up';
         } else if (routeName === 'Settings') {
-          return <Icon
-          name='player-settings'
-          color='#000000'
-        />
+          iconName='player-settings';
         }
+        console.log(routeName);
+        return <Ionicons name={iconName} color='#000000'/>
       },
     }),
     initialRouteName: 'Home',
   },
 );
 
-const doNotShowHeaderOption = {
-  navigationOptions: {
-    header: null,
-  },
-};
+// const doNotShowHeaderOption = {
+//   navigationOptions: {
+//     header: null,
+//   },
+// };
 
-const Navigation = createStackNavigator({
-  Tabs: {
-    screen: TabNavigator,
-    ...doNotShowHeaderOption,
-  },
-  Habit: { screen: HabitScreen }
-});
+// const NavStack = createStackNavigator({
+//   Tabs: {
+//     screen: TabNavigator,
+//     ...doNotShowHeaderOption,
+//   },
+//   Habit: { screen: HabitScreen }
+// });
+
+const AppContainer = createAppContainer(AppNavigator);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Navigation />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>
+      <AppContainer/>
+    </SafeAreaView>
   );
 }
 

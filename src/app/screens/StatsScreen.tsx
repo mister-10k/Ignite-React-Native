@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 type DummyProp = {
     msg: string
@@ -12,7 +12,9 @@ export class StatsScreen extends React.Component<DummyProp> {
       
     render() {  
       return (
-        <View></View>
+        <View>
+          <Text>Welcome to stats.</Text>
+        </View>
       );
     }
   }
