@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Button } from 'react-native';
 import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
@@ -11,28 +11,28 @@ import { Ionicons } from '@expo/vector-icons';
 
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: { screen: HomeScreen },
+    Home: { screen: HomeScreen, navigationOptions: {title: 'Ignite' } },
     Stats: { screen: StatsScreen },
     Settings: { screen: SettingsScreen }
   },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: () => {
-        const { routeName } = navigation.state;
-        let iconName =  '';
-        if (routeName === 'Home') {
-          iconName = 'home';
-        } else if (routeName === 'Stats') {
-          iconName = 'trending-up';
-        } else if (routeName === 'Settings') {
-          iconName='player-settings';
-        }
-        console.log(routeName);
-        return <Ionicons name={iconName} color='#000000'/>
-      },
-    }),
-    initialRouteName: 'Home',
-  },
+  // {
+  //   navigationOptions: ({ navigation }) => ({
+  //     title: 'Ignite',
+  //     tabBarIcon: () => {
+  //       const { routeName } = navigation.state;
+  //       let iconName =  '';
+  //       if (routeName === 'Home') {
+  //         iconName = 'home';
+  //       } else if (routeName === 'Stats') {
+  //         iconName = 'trending-up';
+  //       } else if (routeName === 'Settings') {
+  //         iconName='player-settings';
+  //       }
+  //       return <Ionicons name={iconName} color='#000000'/>
+  //     },
+  //   }),
+  //   initialRouteName: 'Home'
+  // },
 );
 
 // const doNotShowHeaderOption = {
@@ -51,12 +51,14 @@ const AppNavigator = createBottomTabNavigator(
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>
-      <AppContainer/>
-    </SafeAreaView>
-  );
+export default class App extends React.Component {
+  render() {  
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>
+        <AppContainer/>
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
