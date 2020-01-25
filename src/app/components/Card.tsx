@@ -29,16 +29,13 @@ export class Card extends React.Component<CardProp> {
 
       styles = StyleSheet.create({
         container: {
-          marginTop: 20
+          marginTop: 30
         },
         containerInner: {
-          borderWidth: 0.5,
-          borderColor: '#3D3D40',
-          paddingTop: 10,
-          paddingBottom: 10
+          paddingVertical: 10,
+          backgroundColor: 'white'
         },
         title: {
-          color: '#3D3D40',
           marginLeft: 10,
           marginBottom: 5
         }

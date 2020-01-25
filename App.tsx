@@ -11,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: { screen: HomeScreen, navigationOptions: {title: 'Ignite' } },
+    Home: { screen: HomeScreen },
     Stats: { screen: StatsScreen },
     Settings: { screen: SettingsScreen }
   },
@@ -41,15 +41,15 @@ const AppNavigator = createBottomTabNavigator(
 //   },
 // };
 
-// const NavStack = createStackNavigator({
-//   Tabs: {
-//     screen: TabNavigator,
-//     ...doNotShowHeaderOption,
-//   },
-//   Habit: { screen: HabitScreen }
-// });
+const NavStack = createStackNavigator({
+  Tabs: {
+    screen: AppNavigator,
+    navigationOptions: {title: 'Ignite' }
+  },
+  Habit: { screen: HabitScreen }
+});
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(NavStack);
 
 export default class App extends React.Component {
   render() {  
