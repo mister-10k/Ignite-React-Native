@@ -11,6 +11,7 @@ export class HomeScreen extends React.Component<DummyProp> {
       return (
         <View>
           <Card title={"Overview"} componentType={"calendar"}/>
+          <Card title={"Habits"} componentType={"habitList"}></Card>
         </View>
       );
     }
