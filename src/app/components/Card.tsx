@@ -32,7 +32,7 @@ export class Card extends React.Component<CardProp> {
           marginTop: 30
         },
         containerInner: {
-          paddingVertical: 10,
+          paddingVertical: this.props.paddingVertical != null ? this.props.paddingVertical : 10,
           backgroundColor: 'white'
         },
         title: {

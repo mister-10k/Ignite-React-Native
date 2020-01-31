@@ -1,10 +1,11 @@
 export interface CardProp {
     title: string;
     componentType: string;
-    data?: any
+    data?: any;
+    paddingVertical?: number;
 }
 
-export interface HabitListDetail {
+export interface Habit {
     id: number; 
     icon: string;
     name: string; 
@@ -12,5 +13,6 @@ export interface HabitListDetail {
 }
 
 export interface HabitListDetailProp {
-    habit: HabitListDetail
+    habit: Habit;
+    bottomDivider: boolean;
 }
