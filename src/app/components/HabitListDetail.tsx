@@ -1,8 +1,13 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { HabitListDetailProp } from "../types";
-import { Ionicons, Octicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import { Habit } from "../shared/types";
+import { Ionicons } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements';
+
+export interface HabitListDetailProp {
+  habit: Habit;
+  bottomDivider: boolean;
+}
 
 export class HabitListDetail extends React.Component<HabitListDetailProp> {
     render() {  
@@ -49,8 +54,8 @@ export class HabitListDetail extends React.Component<HabitListDetailProp> {
 
           habitStatWrapper: {
             width: '88%',
-            borderBottomWidth: this.props.bottomDivider ? 0.3 : 0,
-            borderColor: '#858586',
+            borderBottomWidth: this.props.bottomDivider ? 1 : 0,
+            borderColor: 'rgba(100,100,100,0.1)',
             flexDirection: 'row',
           },
           

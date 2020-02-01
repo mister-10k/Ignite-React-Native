@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 62276,
+  "packagerPid": 87212,
   "expoServerNgrokUrl": "https://5h-sp2.anonymous.ignite.exp.direct",
   "packagerNgrokUrl": "https://packager.5h-sp2.anonymous.ignite.exp.direct",
-  "ngrokPid": 62288,
-  "webpackServerPort": 19006
+  "ngrokPid": 87223,
+  "webpackServerPort": null
 }

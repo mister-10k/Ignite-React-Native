@@ -8,12 +8,12 @@ type DummyProp = {
 }
 
 export class HomeScreen extends React.Component<DummyProp> {
-    render() {  
-      return (
-        <ScrollView>
-          <Card title={"Overview"} componentType={"calendar"}/>
-          <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
-        </ScrollView>
-      );
-    }
+  render() {  
+    return (
+      <ScrollView>
+        <Card title={"Overview"} componentType={"calendar"} paddingVertical={0}/>
+        <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+      </ScrollView>
+    );
   }
+}

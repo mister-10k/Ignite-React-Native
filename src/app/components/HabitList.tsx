@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import { HabitListDetail } from "./HabitListDetail";
-import { Habit } from "../types";
+import { Habit } from "../shared/types";
 import { ListItem, CheckBox } from 'react-native-elements';
 import { Ionicons } from "@expo/vector-icons";
 
@@ -29,38 +29,6 @@ export class HabitList extends React.Component<DummyProp, {checked1}> {
     changeCheckMarkState() {
       this.setState({ checked1: !this.state.checked1 });
     }
-
-    keyExtractor = (item, index) => index.toString()
-
-    renderItem = ({ item }) => (
-      <HabitListDetail habit={item}/>
-      // <ListItem
-      //   containerStyle={{padding:0}}
-      //   title={item.name}
-      //   leftElement={
-      //     <View>
-      //       <CheckBox
-      //         checkedIcon='check-circle'
-      //         uncheckedIcon='circle-thin'
-      //         checkedColor='#FD5C5F'
-      //         checked={this.state.checked1}
-      //         onPress={() => {this.changeCheckMarkState()}}
-      //         size={30}
-      //       />
-      //     </View>
-      //   }
-      //   rightTitle= {
-      //     // <View style={this.styles.streakWrapper}>
-      //     //     <Ionicons name="md-flame" size={25} color="#858586" />
-      //     //     <Text style={this.styles.streakNumber}>{item.streak}</Text>
-      //     // </View>  
-      //     <Text style={this.styles.streakNumber}>{item.streak}</Text>
-      //   }
-      //   rightTitleStyle={{width: 5}}
-      //   pad={0}
-      //   bottomDivider
-      // />
-    )
     
     render() {  
       return (
