@@ -2,8 +2,8 @@ import React from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import { HabitListDetail } from "./HabitListDetail";
 import { Habit } from "../shared/types";
-import { ListItem, CheckBox } from 'react-native-elements';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import { SwipeRow, SwipeListView } from 'react-native-swipe-list-view';
 
 type DummyProp = {
     msg?: string
@@ -32,28 +32,43 @@ export class HabitList extends React.Component<DummyProp, {checked1}> {
     
     render() {  
       return (
-        <View>
-          {this.habits.map((item, idx) => {
-            return (<HabitListDetail key={item.id} habit={item} bottomDivider={idx != this.habits.length - 1}/>)
-          })}
-        </View>
+          <SwipeListView
+            data={this.habits}
+            renderItem={ (data, rowMap) => (
+              <View style={this.styles.rowFront}>
+                <HabitListDetail key={data.item.id} habit={data.item} bottomDivider={data.index != this.habits.length - 1}/>
+              </View>
+            )}
+            renderHiddenItem={ (data, rowMap) => (
+                <View style={this.styles.rowBack}>
+                    <Text style={this.styles.backTextWhite}></Text>
+                    <SimpleLineIcons name="notebook" size={25} color="white"/>
+                </View>
+            )}
+            stopLeftSwipe={1}
+            rightOpenValue={-60}
+            closeOnRowPress
+            closeOnRowOpen
+        />
       );
     }
 
       styles = StyleSheet.create({
-        streakWrapper: {
-          flex: 0.5,
-          flexDirection: 'row',
-          alignSelf: 'center',
-          justifyContent: 'flex-end',
-          paddingRight: 20,
-          width: 2
+        rowFront: {
+          alignItems: 'center',
+          backgroundColor: 'white',
+          justifyContent: 'center',
         },
-
-        streakNumber: {
-          marginTop: 7,
-          marginLeft: 5,
-          color: '#858586'
+        rowBack: {
+          alignItems: 'center',
+          backgroundColor: '#FD5C5F',
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: 15,
+        },
+        backTextWhite: {
+          color: '#FFF',
         }
       });
 }
