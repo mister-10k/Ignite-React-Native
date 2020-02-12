@@ -4,12 +4,24 @@ import { Habit } from "../shared/types";
 import { Ionicons } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements';
 
-export interface HabitListDetailProp {
+interface HabitListDetailProp {
   habit: Habit;
   bottomDivider: boolean;
 }
 
-export class HabitListDetail extends React.Component<HabitListDetailProp> {
+interface HabitListDetailState {
+  checked: boolean;
+}
+
+export class HabitListDetail extends React.Component<HabitListDetailProp, HabitListDetailState> {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        checked: true
+      };
+    }
+
     render() {  
       return (
         <View style={this.styles.container}>
@@ -18,8 +30,8 @@ export class HabitListDetail extends React.Component<HabitListDetailProp> {
               checkedIcon='check-circle'
               uncheckedIcon='circle-thin'
               checkedColor='#FD5C5F'
-              checked={true}
-              onPress={() => {}}
+              checked={this.state.checked}
+              onPress={() => {this.setState({checked: !this.state.checked})}}
               size={30}
             />
             </View>

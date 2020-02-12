@@ -14,32 +14,8 @@ const AppNavigator = createBottomTabNavigator(
     Home: { screen: HomeScreen },
     Stats: { screen: StatsScreen },
     Settings: { screen: SettingsScreen }
-  },
-  // {
-  //   navigationOptions: ({ navigation }) => ({
-  //     title: 'Ignite',
-  //     tabBarIcon: () => {
-  //       const { routeName } = navigation.state;
-  //       let iconName =  '';
-  //       if (routeName === 'Home') {
-  //         iconName = 'home';
-  //       } else if (routeName === 'Stats') {
-  //         iconName = 'trending-up';
-  //       } else if (routeName === 'Settings') {
-  //         iconName='player-settings';
-  //       }
-  //       return <Ionicons name={iconName} color='#000000'/>
-  //     },
-  //   }),
-  //   initialRouteName: 'Home'
-  // },
+  }
 );
-
-// const doNotShowHeaderOption = {
-//   navigationOptions: {
-//     header: null,
-//   },
-// };
 
 const NavStack = createStackNavigator({
   Tabs: {

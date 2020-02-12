@@ -3,12 +3,35 @@ import { View, Text } from "react-native";
 import { Card } from "../components/Card";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from 'moment';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import { Note } from "../components/Note";
+import { BottomSheetHeader } from "../components/BottomSheetHeader";
+import BottomSheet from 'reanimated-bottom-sheet'
+import { Habit } from "../shared/types";
 
-type DummyProp = {
-    msg: string
+interface HomeScreenProp  {
 }
 
-export class HomeScreen extends React.Component<DummyProp> {
+interface HomeScreenState  {
+  scrollEnabled: boolean,
+  showNoteBottomSheet: boolean,
+}
+
+export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scrollEnabled: true,
+      showNoteBottomSheet: false
+    };
+  }
+
+  onSwipeLeft = (gestureState) => {
+    alert('hi');
+    this.setState({scrollEnabled: false});
+  }
+
   getCalendarStripDefaultTitle() {
     const currentDate = moment();
     const startDate = currentDate.startOf('isoWeek');
@@ -21,12 +44,27 @@ export class HomeScreen extends React.Component<DummyProp> {
     }
   }
 
+  openBottomSheet(habit: Habit) {
+    this.setState({showNoteBottomSheet: true});
+  }
+
   render() {  
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
     return (
-      <ScrollView>
-        <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
-        <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
-      </ScrollView>
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={this.state.scrollEnabled}>
+          <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
+          <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+        </ScrollView>     
+      </View>
+      // <GestureRecognizer
+      //   onSwipeLeft={this.onSwipeLeft}
+      //   config={config}
+      // >
+      // </GestureRecognizer>
     );
   }
 }
