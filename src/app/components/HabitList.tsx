@@ -1,25 +1,30 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList, Text, Dimensions } from "react-native";
 import { HabitListDetail } from "./HabitListDetail";
 import { Habit } from "../shared/types";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SwipeRow, SwipeListView } from 'react-native-swipe-list-view';
-import { BottomSheetHeader } from './BottomSheetHeader'
-import { Note } from "./Note";
-import BottomSheet from 'reanimated-bottom-sheet'
+import { SheetBottom } from 'material-bread';
+import { NoteBottomSheet } from "./NoteBottomSheet";
 
 type DummyProp = {
     msg?: string
 }
 
-export class HabitList extends React.Component<DummyProp, {checked1}> {
+interface HabitListState {
+  checked1: boolean;
+  showBottomSheet: boolean;
+}
+
+export class HabitList extends React.Component<DummyProp, HabitListState> {
     openRowRefs = [];
 
     constructor(props) {
       super(props);
 
       this.state = {
-        checked1: true
+        checked1: true,
+        showBottomSheet: false
       };
     }
 
@@ -37,18 +42,15 @@ export class HabitList extends React.Component<DummyProp, {checked1}> {
       this.setState({ checked1: !this.state.checked1 });
     }
 
-    onRowDidOpen = (rowKey, rowMap) => {
+    onRowOpen = (rowKey, rowMap) => {
+      this.setState({ showBottomSheet: true });
       const ref = rowMap[rowKey];
       ref.closeRow && ref.closeRow()
     }
 
-    renderContent = () => (
-      <Note/>
-    )
-  
-    renderHeader = () => (
-      <BottomSheetHeader title={'Note'} leftBtnName={'cancel'} rightBtnName={'save'}/>
-    )
+    closeBottomSheet = () => {
+      this.setState({ showBottomSheet: false });
+    }
     
     render() {  
       return (
@@ -56,7 +58,7 @@ export class HabitList extends React.Component<DummyProp, {checked1}> {
           <SwipeListView
             keyExtractor={(item, index) => item.id.toString()}
             data={this.habits}
-            onRowDidOpen={this.onRowDidOpen}
+            onRowOpen={this.onRowOpen}
             renderItem={ (data, rowMap) => (
               <View style={this.styles.rowFront}>
                 <HabitListDetail key={data.item.id} habit={data.item} bottomDivider={data.index != this.habits.length - 1}/>
@@ -75,11 +77,13 @@ export class HabitList extends React.Component<DummyProp, {checked1}> {
             scrollEnabled={false}
           />
 
-          <BottomSheet
-            snapPoints = {[450, 0, 0]}
-            renderContent = {this.renderContent}
-            renderHeader = {this.renderHeader}
-          />
+          <SheetBottom
+            style={{borderTopLeftRadius: 10, borderTopRightRadius: 10}}
+            visible={this.state.showBottomSheet}
+            onBackdropPress={() => this.setState({ showBottomSheet: false })}
+            onSwipeDown={() => this.setState({ showBottomSheet: false })}>
+            <NoteBottomSheet closeBottomSheet={this.closeBottomSheet} leftBtnName={'Cancel'} title={'Note'} rightBtnName={'Save'}/>
+          </SheetBottom>
         </View>
           
       );

@@ -3,18 +3,12 @@ import { View, Text } from "react-native";
 import { Card } from "../components/Card";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from 'moment';
-import GestureRecognizer from 'react-native-swipe-gestures';
-import { Note } from "../components/Note";
-import { BottomSheetHeader } from "../components/BottomSheetHeader";
-import BottomSheet from 'reanimated-bottom-sheet'
-import { Habit } from "../shared/types";
 
 interface HomeScreenProp  {
 }
 
 interface HomeScreenState  {
-  scrollEnabled: boolean,
-  showNoteBottomSheet: boolean,
+  scrollEnabled: boolean
 }
 
 export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState> {
@@ -22,13 +16,11 @@ export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState>
     super(props);
 
     this.state = {
-      scrollEnabled: true,
-      showNoteBottomSheet: false
+      scrollEnabled: true
     };
   }
 
   onSwipeLeft = (gestureState) => {
-    alert('hi');
     this.setState({scrollEnabled: false});
   }
 
@@ -42,10 +34,6 @@ export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState>
     } else {
       return startDate.format("MMM 'YY") + ' - ' + endDate.format("MMM 'YY");
     }
-  }
-
-  openBottomSheet(habit: Habit) {
-    this.setState({showNoteBottomSheet: true});
   }
 
   render() {  

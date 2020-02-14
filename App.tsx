@@ -7,7 +7,7 @@ import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
 import { StatsScreen } from './src/app/screens/StatsScreen';
-import { Ionicons } from '@expo/vector-icons';
+import { BreadProvider } from "material-bread";
 
 const AppNavigator = createBottomTabNavigator(
   {
@@ -31,7 +31,9 @@ export default class App extends React.Component {
   render() {  
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>
-        <AppContainer/>
+        <BreadProvider>
+          <AppContainer/>
+        </BreadProvider>
       </SafeAreaView>
     );
   }
