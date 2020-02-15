@@ -41,6 +41,7 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
   styles = StyleSheet.create({
       container: {
         height: Dimensions.get('window').height * 0.91,
+        marginTop: 20,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         paddingLeft: 10,

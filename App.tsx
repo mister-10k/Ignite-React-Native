@@ -8,11 +8,14 @@ import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
 import { StatsScreen } from './src/app/screens/StatsScreen';
 import { BreadProvider } from "material-bread";
+import { OffersScreen } from './src/app/screens/OffersScreen';
 
 const AppNavigator = createBottomTabNavigator(
   {
     Home: { screen: HomeScreen },
     Stats: { screen: StatsScreen },
+    // AddHabit: { screen: null},
+    Offers: { screen: OffersScreen },
     Settings: { screen: SettingsScreen }
   }
 );

@@ -6,24 +6,24 @@ import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SwipeRow, SwipeListView } from 'react-native-swipe-list-view';
 import { SheetBottom } from 'material-bread';
 import { NoteBottomSheet } from "./NoteBottomSheet";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 type DummyProp = {
     msg?: string
 }
 
 interface HabitListState {
-  checked1: boolean;
   showBottomSheet: boolean;
 }
 
 export class HabitList extends React.Component<DummyProp, HabitListState> {
     openRowRefs = [];
+    RBSheet: RBSheet;
 
     constructor(props) {
       super(props);
 
       this.state = {
-        checked1: true,
         showBottomSheet: false
       };
     }
@@ -38,18 +38,14 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
       { id: 7, icon: '', name: 'whyyyyy', streak: 111 }
     ]
 
-    changeCheckMarkState() {
-      this.setState({ checked1: !this.state.checked1 });
-    }
-
     onRowOpen = (rowKey, rowMap) => {
-      this.setState({ showBottomSheet: true });
+      this.RBSheet.open();
       const ref = rowMap[rowKey];
       ref.closeRow && ref.closeRow()
     }
 
     closeBottomSheet = () => {
-      this.setState({ showBottomSheet: false });
+      this.RBSheet.close();
     }
     
     render() {  
@@ -77,13 +73,34 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
             scrollEnabled={false}
           />
 
-          <SheetBottom
+          {/* <SheetBottom
             style={{borderTopLeftRadius: 10, borderTopRightRadius: 10}}
             visible={this.state.showBottomSheet}
             onBackdropPress={() => this.setState({ showBottomSheet: false })}
             onSwipeDown={() => this.setState({ showBottomSheet: false })}>
             <NoteBottomSheet closeBottomSheet={this.closeBottomSheet} leftBtnName={'Cancel'} title={'Note'} rightBtnName={'Save'}/>
-          </SheetBottom>
+          </SheetBottom> */}
+
+          <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          closeOnDragDown
+          height={Dimensions.get('window').height * 0.95}
+          duration={250}
+          customStyles={{
+            container: {
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              marginTop: 40
+              // position: 'absolute',
+              // top: 50
+            },
+            draggableIcon: { display: 'none'}
+          }}
+        >
+          <NoteBottomSheet closeBottomSheet={this.closeBottomSheet} leftBtnName={'Cancel'} title={'Note'} rightBtnName={'Save'}/>
+        </RBSheet>
         </View>
           
       );
