@@ -35,7 +35,8 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
       { id: 4, icon: '', name: 'Plan One Thing', streak: 1 },
       { id: 5, icon: '', name: 'hiiiii', streak: 111 },
       { id: 6, icon: '', name: 'byeeeee', streak: 111 },
-      { id: 7, icon: '', name: 'whyyyyy', streak: 111 }
+      { id: 7, icon: '', name: 'run', streak: 111 },
+      { id: 8, icon: '', name: 'Swim', streak: 111 }
     ]
 
     onRowOpen = (rowKey, rowMap) => {

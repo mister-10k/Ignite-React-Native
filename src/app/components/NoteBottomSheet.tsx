@@ -22,10 +22,10 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
           <View style={this.styles.container}>
             <View style={this.styles.headerContainer}>
                 <TouchableOpacity style={this.styles.leftBtn} onPress={this.closeBottomSheet}>
-                    <Text>{this.props.leftBtnName}</Text>
+                    <Text style={this.styles.leftBtnText}>{this.props.leftBtnName}</Text>
                 </TouchableOpacity>
 
-                <Text style={this.styles.title}>Note</Text>
+                <Text style={this.styles.title}>{this.props.title}</Text>
 
                 <TouchableOpacity style={this.styles.rightBtn} onPress={this.rightBtnClicked}>
                   <Text style={this.styles.rightBtnText}>{this.props.rightBtnName}</Text>
@@ -41,11 +41,9 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
   styles = StyleSheet.create({
       container: {
         height: Dimensions.get('window').height * 0.91,
-        marginTop: 20,
+        marginTop: 10,
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        paddingLeft: 10,
-        paddingRight: 10
+        borderTopRightRadius: 10
       },
       headerContainer: {
         flexDirection: 'row',
@@ -53,24 +51,29 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         borderBottomWidth: 1,
-        paddingBottom:10,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
         borderColor: 'rgba(100,100,100,0.1)'
       },
       body: {
-
+        paddingHorizontal: 10
       },
       leftBtn: {
-        marginLeft: 10
+
+      },
+      leftBtnText: {
+        fontSize: 16
       },
       title: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 16
       },
       rightBtn: {
-        marginRight: 10
       },
       rightBtnText: {
         color: '#FD5C5F',
-        fontWeight: 'bold'
+        fontSize: 16
+        // fontWeight: 'bold'
       }
   });
 }

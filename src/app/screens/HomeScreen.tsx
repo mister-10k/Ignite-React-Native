@@ -43,9 +43,12 @@ export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState>
     };
     return (
       <View>
-        <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={this.state.scrollEnabled}>
-          <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
-          <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+        <ScrollView 
+          bounces={false}
+          showsVerticalScrollIndicator={false} 
+          scrollEnabled={this.state.scrollEnabled}>
+            <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
+            <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
         </ScrollView>     
       </View>
       // <GestureRecognizer
