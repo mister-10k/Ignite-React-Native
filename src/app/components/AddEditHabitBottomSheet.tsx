@@ -1,16 +1,75 @@
 import React from "react";
-import { View, Dimensions, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
+import { View, Dimensions, StyleSheet, TouchableOpacity, Text, TextInput, TouchableHighlightComponent } from "react-native";
+import { Days, Habit } from "../shared/types";
+import { NavigationScreenProp } from "react-navigation";
 
-interface AddEditHabitBottomSheetProp {
+interface Prop {
     title: string;
     leftBtnName?: string;
     rightBtnName?: string;
+    habit?: Habit;
     closeBottomSheet: () => void;
 }
 
-export class AddEditHabitBottomSheet extends React.Component<AddEditHabitBottomSheetProp> {
+interface State {
+  currentHabit: Habit;
+  frequenciesAbbreviated: string;
+}
+
+export class AddEditHabitBottomSheet extends React.Component<Prop, State> {
     constructor(props) {
         super(props);
+
+        this.state = {
+          currentHabit: {
+            name: '',
+            frequency: [
+              Days.Sunday,
+              Days.Monday,
+              Days.Tuesday,
+              Days.Wednesday,
+              Days.Thursday,
+              Days.Friday,
+              Days.Saturday
+            ],
+            streak: 0
+          },
+          frequenciesAbbreviated: ''
+        };
+    }
+
+    componentDidMount() {
+      if (this.props.habit) {
+        this.setState({ currentHabit: this.props.habit})
+      }
+      this.setDayAbbreviations();
+    }
+
+    setDayAbbreviations() {
+      let abbreviations = '';
+      this.state.currentHabit.frequency.forEach((f,index) => {
+        let letter = '';
+        if (f == Days.Sunday || f == Days.Saturday) {
+          letter = 'S';
+        } else if (f == Days.Monday) {
+          letter = 'M'
+        } else if (f == Days.Tuesday || f == Days.Thursday) {
+          letter = 'T'
+        } else if (f == Days.Wednesday) {
+          letter = 'W'
+        } else { // Friday
+          letter = 'F'
+        }
+
+
+        if (index == 0) {
+          abbreviations += letter;
+        } else {
+          abbreviations +=  ',' + letter;
+        }
+      });
+
+      this.setState({frequenciesAbbreviated: abbreviations });
     }
 
     rightBtnClicked() {
@@ -43,7 +102,7 @@ export class AddEditHabitBottomSheet extends React.Component<AddEditHabitBottomS
                 </View>
                 <View style={this.styles.row}>
                     <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Frequency</Text></View>
-                    <View style={this.styles.rowBody}><Text>Every day</Text></View>
+                    <View style={this.styles.rowBody}><Text>{this.state.frequenciesAbbreviated}</Text></View>
                 </View>
             </View>
           </View>

@@ -29,14 +29,14 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
     }
 
     habits: Habit [] = [
-      { id: 1, icon: '', name: 'journal', streak: 123 },
-      { id: 2, icon: '', name: 'meditate', streak: 10 },
-      { id: 3, icon: '', name: 'read/podcast', streak: 13 },
-      { id: 4, icon: '', name: 'Plan One Thing', streak: 1 },
-      { id: 5, icon: '', name: 'hiiiii', streak: 111 },
-      { id: 6, icon: '', name: 'byeeeee', streak: 111 },
-      { id: 7, icon: '', name: 'run', streak: 111 },
-      { id: 8, icon: '', name: 'Swim', streak: 111 }
+      { id: 1, icon: '', name: 'journal', streak: 123, frequency: [] },
+      { id: 2, icon: '', name: 'meditate', streak: 10,  frequency: [] },
+      { id: 3, icon: '', name: 'read/podcast', streak: 13,  frequency: [] },
+      { id: 4, icon: '', name: 'Plan One Thing', streak: 1,  frequency: [] },
+      { id: 5, icon: '', name: 'hiiiii', streak: 111,  frequency: [] },
+      { id: 6, icon: '', name: 'byeeeee', streak: 111,  frequency: [] },
+      { id: 7, icon: '', name: 'run', streak: 111,  frequency: [] },
+      { id: 8, icon: '', name: 'Swim', streak: 111,  frequency: [] }
     ]
 
     onRowOpen = (rowKey, rowMap) => {
