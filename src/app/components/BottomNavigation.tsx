@@ -4,44 +4,38 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationScreenProp } from "react-navigation";
 import { Entypo, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { AddEditHabitBottomSheet } from "./AddEditHabitBottomSheet";
+import { AddEditHabitScreen } from "../screens/AddEditHabitScreen";
 
 interface BottomNavigationProp {
-    navigation: NavigationScreenProp<any,any>
-
+    navigation,
+    state
 }
 
 export class BottomNavigation extends React.Component<BottomNavigationProp> {
-    RBSheet: RBSheet;
-    
     constructor(props) {
         super(props);
     }
-    closeBottomSheet = () => {
-        this.RBSheet.close();
-    }
       
     render() {
-        let currentRouteName = this.props.navigation.state.routes[this.props.navigation.state.index].key;
         return (
             <View style={this.styles.container}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-                    <Entypo name={'home'} size={30} color="grey"></Entypo>
+                    <Entypo name={'home'} size={30} color={this.props.state.index == 0 ? "black" : "grey"}></Entypo>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Stats')}>
-                    <Ionicons name={'ios-stats'} size={30} color="grey"></Ionicons>
+                    <Ionicons name={'ios-stats'} size={30} color={this.props.state.index == 1 ? "black" : "grey"}></Ionicons>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.RBSheet.open()}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('AddEditHabit')}>
                     <MaterialIcons name={'add-box'} size={30} color="grey"></MaterialIcons>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Offers')}>
-                    <MaterialCommunityIcons name={'sale'} size={30} color="grey"></MaterialCommunityIcons>
+                    <MaterialCommunityIcons name={'sale'} size={30} color={this.props.state.index == 3 ? "black" : "grey"}></MaterialCommunityIcons>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
-                    <MaterialIcons name={'settings'} size={30} color="grey"></MaterialIcons>
+                    <MaterialIcons name={'settings'} size={30} color={this.props.state.index == 4 ? "black" : "grey"}></MaterialIcons>
                 </TouchableOpacity>
 
-                <RBSheet
+                {/* <RBSheet
                     ref={ref => {
                         this.RBSheet = ref;
                     }}
@@ -65,7 +59,7 @@ export class BottomNavigation extends React.Component<BottomNavigationProp> {
                         rightBtnName={'Add'}
                         closeBottomSheet={this.closeBottomSheet}
                     />
-                </RBSheet>
+                </RBSheet> */}
             </View> 
         )
     }

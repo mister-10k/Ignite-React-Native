@@ -115,7 +115,7 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
         },
         rowBack: {
           alignItems: 'center',
-          backgroundColor: '#FD5C5F',
+          backgroundColor: '#858586',
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'space-between',

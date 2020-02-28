@@ -71,7 +71,7 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
       rightBtn: {
       },
       rightBtnText: {
-        color: '#FD5C5F',
+        color: 'black',
         fontSize: 16
         // fontWeight: 'bold'
       }
