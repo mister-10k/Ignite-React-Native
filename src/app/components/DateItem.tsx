@@ -14,6 +14,7 @@ interface DateItemProp  {
     highlight,
     showLunar,
     onItemPress,
+    color
 }
 
 interface DateItemState {
@@ -32,7 +33,7 @@ export class DateItem extends React.PureComponent<DateItemProp, DateItemState> {
       const solar = format(item, 'D');
       const _lunar = ChineseLunar.solarToLunar(item);
       const lunar = ChineseLunar.format(_lunar, 'd');
-      const highlightBgColor = 'black';
+      const highlightBgColor = this.props.color;
       const normalBgColor = 'white';
       const hightlightTextColor = '#fff';
       const normalTextColor = 'rgba(0,0,0,0.9)';

@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Dimensions, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
 import { Days, Habit } from "../shared/types";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationScreenProp } from "react-navigation";
+import { RouteProp } from "@react-navigation/native";
 
 interface Prop {
     title: string;
-    leftBtnName?: string;
-    rightBtnName?: string;
     habit?: Habit;
-    closeBottomSheet: () => void;
+    navigation: NavigationScreenProp<any,any>
+    route: RouteProp<any,any>
 }
 
 interface State {
@@ -38,6 +40,8 @@ export class AddEditHabitScreen extends React.Component<Prop, State> {
     }
 
     componentDidMount() {
+      this.props.navigation.setParams({ saveHabit: this.saveHabit });
+
       if (this.props.habit) {
         this.setState({ currentHabit: this.props.habit})
       }
@@ -71,12 +75,8 @@ export class AddEditHabitScreen extends React.Component<Prop, State> {
       this.setState({frequenciesAbbreviated: abbreviations });
     }
 
-    rightBtnClicked() {
-
-    }
-
-    closeBottomSheet = () => {
-        this.props.closeBottomSheet();
+    saveHabit() {
+      alert('hi');
     }
       
     render() { 

@@ -56,14 +56,22 @@ interface CalendarStripState  {
 }
 
 export class CalendarStrip extends React.Component<CalendarStripProp, CalendarStripState> {
+  colors: string [] = ['#DC6788', '#67B7DC', '#6794DC', '#6771DC', '#8067DC', '#A367DC', '#C767DC', '#DC67CE', '#DC67AB'];
+  color: string;
+
   constructor(props) {
     super(props);
+    this.color = this.colors[this.getRandomArbitrary(0,8)]
     this.state = {
       datas: this.getInitialDates(props.weekStartsOn),
       isTodayVisible: true,
       pageOfToday: 2, // page of today in calendar, start from 0
       currentPage: 2, // current page in calendar,  start from 0
     };
+  }
+
+  getRandomArbitrary(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   public static defaultProps = {
@@ -246,6 +254,7 @@ export class CalendarStrip extends React.Component<CalendarStripProp, CalendarSt
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item} : any) =>
             <DateItem
+              color={this.color}
               item={item}
               showLunar={showChineseLunar}
               onItemPress={() => onPressDate && onPressDate(item)}

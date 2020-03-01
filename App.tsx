@@ -1,8 +1,8 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createAppContainer, SafeAreaView } from 'react-navigation';
+import { createStackNavigator, TransitionSpecs, CardStyleInterpolators } from '@react-navigation/stack';
+import { createAppContainer, SafeAreaView, NavigationScreenProp } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text, View, StatusBar, Button } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Button, Dimensions } from 'react-native';
 import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
@@ -13,85 +13,7 @@ import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/v
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AddEditHabitScreen } from './src/app/screens/AddEditHabitScreen';
 import { BottomNavigation } from './src/app/components/BottomNavigation';
-
-// const AppNavigator = createBottomTabNavigator(
-//   {
-//     Home: { screen: HomeScreen },
-//     Stats: { screen: StatsScreen },
-//     // AddEditHabit: { screen: AddEditHabitScreen },
-//     Offers: { screen: OffersScreen },
-//     Settings: { screen: SettingsScreen }
-//   },
-//   {
-//     tabBarComponent: props => <BottomNavigation {...props} />
-//   },
-// );
-
-// const NavStack = createStackNavigator(
-//   {
-//     Tabs: {
-//       screen: AppNavigator
-//     },
-//     AddEditHabit: { screen: AddEditHabitScreen }
-//   },
-//   {
-//     defaultNavigationOptions: {
-//       title: 'Ignite',
-//     }
-//   }
-// );
-
-function MyTabBar({ state, descriptors, navigation }) {
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
-
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
-        return (
-          <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityStates={isFocused ? ['selected'] : []}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{ flex: 1 }}
-          >
-            <Text style={{ color: isFocused ? '#673ab7' : '#222' }}>
-              {label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-}
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 function Root() {
   return (
@@ -156,6 +78,28 @@ function Root() {
   );
 }
 
+headerAddEditHabit: ({ scene, previous, navigation }) => {
+  const { options } = scene.descriptor;
+  const title =
+    options.headerTitle !== undefined
+      ? options.headerTitle
+      : options.title !== undefined
+      ? options.title
+      : scene.route.name;
+
+  return (
+    <Header
+      title={title}
+      leftButton={
+        <TouchableOpacity onPress={() => {navigation.goBack}} style={{marginLeft: 10}}>
+          <Text style={{color: 'black', fontSize: 16}}>Cancel</Text>
+        </TouchableOpacity>
+      }
+      // style={options.headerStyle}
+    />
+  );
+};
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -166,7 +110,32 @@ export default class App extends React.Component {
           <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Ignite" component={Root} />
-            <Stack.Screen name="AddEditHabit" component={AddEditHabitScreen} />
+            <Stack.Screen
+              name="AddEditHabit"
+              component={AddEditHabitScreen}
+              options={({navigation, route}) => ({
+                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                  gestureDirection: 'vertical',
+                  gestureResponseDistance: { horizontal: 25, vertical: Dimensions.get('window').height},
+                  // safeAreaInsets: { bottom: 20},
+                  title: 'Add Habit',
+                  headerLeft: () => {
+                    return (
+                      <TouchableOpacity onPress={() => {navigation.goBack()}} style={{marginLeft: 10}}>
+                        <Text style={{color: 'black', fontSize: 16}}>Cancel</Text>
+                      </TouchableOpacity>
+                    )
+                  },
+                  headerRight: () => {
+                    return (
+                      <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
+                        <Text style={{color: 'black',fontWeight: 'bold', fontSize: 16}}>Save</Text>
+                      </TouchableOpacity>
+                    )
+                  } 
+
+              })}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

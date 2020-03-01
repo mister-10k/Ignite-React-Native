@@ -29,7 +29,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
             <CheckBox
               checkedIcon='check-circle'
               uncheckedIcon='circle-thin'
-              checkedColor='black'
+              checkedColor={this.props.habit.color ? this.props.habit.color : "#858586"}
               checked={this.state.checked}
               onPress={() => {this.setState({checked: !this.state.checked})}}
               size={30}
@@ -47,7 +47,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
                         <MaterialCommunityIcons name="sleep" size={25} color="#858586" />
                     </View> */}
                     <View style={this.styles.streakWrapper}>
-                        <Ionicons name="md-flame" size={25} color="#CD5C5C" />
+                        <Ionicons name="md-flame" size={25} color="#858586" />
                         <Text style={this.styles.streakNumber}>{this.props.habit.streak}</Text>
                     </View>  
                 </View>
