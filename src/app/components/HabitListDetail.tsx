@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Habit } from "../shared/types";
 import { Ionicons } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements';
+import { DarkTheme } from "../shared/themes/Dark";
 
 interface HabitListDetailProp {
   habit: Habit;
@@ -26,14 +27,20 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
       return (
         <View style={this.styles.container}>
             <View style={this.styles.iconWrapper}>
-            <CheckBox
-              checkedIcon='check-circle'
-              uncheckedIcon='circle-thin'
-              checkedColor={this.props.habit.color ? this.props.habit.color : "#858586"}
-              checked={this.state.checked}
-              onPress={() => {this.setState({checked: !this.state.checked})}}
-              size={30}
-            />
+              { this.state.checked && <View style={this.styles.checkedBackground}></View> }
+              
+              <CheckBox
+                containerStyle={{position: 'absolute'}}
+                // containerStyle={this.styles.checkBox}
+                // wrapperStyle={this.styles.checkBox}
+                checkedIcon='check-circle'
+                uncheckedIcon='circle-thin'
+                uncheckedColor='white'
+                checkedColor={this.props.habit.color ? this.props.habit.color : "#858586"}
+                checked={this.state.checked}
+                onPress={() => {this.setState({checked: !this.state.checked})}}
+                size={30}
+              />
             </View>
 
             <View style={this.styles.habitStatWrapper}>
@@ -72,10 +79,18 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
           },
           
           iconWrapper: {
-            width: '22%',
+            width: 50,
             flex: 1,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+          },
+
+          checkedBackground: {
+            height: 23,
+            width: 23,
+            backgroundColor: 'white',
+            borderRadius: 16.5,
+            marginRight: 2
           },
 
           streakWrapper: {
@@ -98,11 +113,12 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
 
           habitName : {
             // fontWeight: 'bold'
+            color: DarkTheme.PRIMARY_TEXT_COLOR
           },
 
           statusIconsWrapper: {
             flex: 0.2,
             flexDirection: 'row'
-          },
+          }
       });
 }

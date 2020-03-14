@@ -26,6 +26,7 @@ import {
 } from 'date-fns';
 import { DateItem } from "./DateItem";
 import moment from 'moment';
+import { DarkTheme } from "../shared/themes/Dark";
 
 const width = Dimensions.get('window').width;
 const ITEM_LENGTH = width / 7;
@@ -314,6 +315,7 @@ export class CalendarStrip extends React.Component<Props, State> {
     container: {
       width,
       height: 85,
+      backgroundColor: DarkTheme.PRIMARY_COLOR
     }
   });
 }

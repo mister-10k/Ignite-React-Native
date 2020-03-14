@@ -8,12 +8,13 @@ import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
 import { StatsScreen } from './src/app/screens/StatsScreen';
 import { OffersScreen } from './src/app/screens/OffersScreen';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AddEditHabitScreen } from './src/app/screens/AddEditHabitScreen';
 import { BottomNavigation } from './src/app/components/BottomNavigation';
 import { Header } from 'react-native/Libraries/NewAppScreen';
+import { DarkTheme } from './src/app/shared/themes/Dark';
 
 function Root() {
   return (
@@ -111,6 +112,17 @@ interface State  {
 }
 
 export default class App extends React.Component<Prop, State> {
+  theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: 'black',
+      text: 'white',
+      border: 'rgba(100,100,100,0.1)',
+      card: DarkTheme.PRIMARY_COLOR,
+    },
+  };
+
   constructor(props) {
     super(props);
 
@@ -148,8 +160,8 @@ export default class App extends React.Component<Prop, State> {
 
   render() {  
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>          
-          <NavigationContainer>
+      <SafeAreaView style={{ flex: 1, backgroundColor: DarkTheme.PRIMARY_COLOR}}>          
+          <NavigationContainer theme={this.theme}>
           <Stack.Navigator>
             <Stack.Screen name="Ignite" component={Root} />
             <Stack.Screen
@@ -164,14 +176,14 @@ export default class App extends React.Component<Prop, State> {
                   headerLeft: () => {
                     return (
                       <TouchableOpacity onPress={() => {navigation.goBack()}} style={{marginLeft: 10}}>
-                        <Text style={{color: 'black', fontSize: 16}}>Cancel</Text>
+                        <Text style={{color: 'white', fontSize: 16}}>Cancel</Text>
                       </TouchableOpacity>
                     )
                   },
                   headerRight: () => {
                     return (
                       <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
-                        <Text style={{color: 'black',fontWeight: 'bold', fontSize: 16}}>Save</Text>
+                        <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
                       </TouchableOpacity>
                     )
                   } 

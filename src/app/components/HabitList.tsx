@@ -6,6 +6,7 @@ import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SwipeRow, SwipeListView } from 'react-native-swipe-list-view';
 import { NoteBottomSheet } from "./NoteBottomSheet";
 import RBSheet from "react-native-raw-bottom-sheet";
+import { DarkTheme } from "../shared/themes/Dark";
 
 interface Props {
     msg?: string
@@ -109,7 +110,7 @@ export class HabitList extends React.Component<Props, State> {
       styles = StyleSheet.create({
         rowFront: {
           alignItems: 'center',
-          backgroundColor: 'white',
+          backgroundColor: DarkTheme.PRIMARY_COLOR,
           justifyContent: 'center',
         },
         rowBack: {

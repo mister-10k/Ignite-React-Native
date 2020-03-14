@@ -6,6 +6,7 @@ import {
     format,
 } from 'date-fns';
 import ChineseLunar from 'chinese-lunar';
+import { DarkTheme } from "../shared/themes/Dark";
 const width = Dimensions.get('window').width;
 
 interface Props  {
@@ -34,9 +35,9 @@ export class DateItem extends React.PureComponent<Props, State> {
       const _lunar = ChineseLunar.solarToLunar(item);
       const lunar = ChineseLunar.format(_lunar, 'd');
       const highlightBgColor = this.props.color;
-      const normalBgColor = 'white';
+      const normalBgColor = DarkTheme.PRIMARY_COLOR;
       const hightlightTextColor = '#fff';
-      const normalTextColor = 'rgba(0,0,0,0.9)';
+      const normalTextColor = DarkTheme.PRIMARY_TEXT_COLOR;
       return (
         <View style={this.styles.itemContainer}>
           <TouchableOpacity

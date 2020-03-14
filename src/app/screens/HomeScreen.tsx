@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Card } from "../components/Card";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from 'moment';
+import { DarkTheme } from "../shared/themes/Dark";
 
 interface Props  {
 }
@@ -33,7 +34,7 @@ export class HomeScreen extends React.Component<Props, State> {
   }
 
   render() {  
-        return <View>
+        return <View style={{backgroundColor: DarkTheme.ACCENT_COLOR}}>
                 <ScrollView 
                   bounces={false}
                   showsVerticalScrollIndicator={false} >

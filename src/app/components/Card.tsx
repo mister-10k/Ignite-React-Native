@@ -75,7 +75,8 @@ export class Card extends React.Component<Props, State> {
       },
       title: {
         marginLeft: 10,
-        marginBottom: 5
+        marginBottom: 5,
+        color: 'white'
       }
     });
   }

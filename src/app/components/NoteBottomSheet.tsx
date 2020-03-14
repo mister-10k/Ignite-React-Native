@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions } from "react-native";
+import { DarkTheme } from "../shared/themes/Dark";
 
 interface BottomSheetHeaderProp {
     title: string;
@@ -43,7 +44,8 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
         height: Dimensions.get('window').height * 0.91,
         marginTop: 10,
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        borderTopRightRadius: 10,
+        backgroundColor: DarkTheme.ACCENT_COLOR
       },
       headerContainer: {
         flexDirection: 'row',
@@ -53,25 +55,28 @@ export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
         borderBottomWidth: 1,
         paddingVertical: 15,
         paddingHorizontal: 10,
-        borderColor: 'rgba(100,100,100,0.1)'
+        borderColor: 'rgba(100,100,100,0.1)',
+        backgroundColor: DarkTheme.PRIMARY_COLOR
       },
       body: {
         paddingHorizontal: 10
       },
       leftBtn: {
-
+        
       },
       leftBtnText: {
-        fontSize: 16
+        fontSize: 16,
+        color: DarkTheme.PRIMARY_TEXT_COLOR
       },
       title: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        color: DarkTheme.PRIMARY_TEXT_COLOR
       },
       rightBtn: {
       },
       rightBtnText: {
-        color: 'black',
+        color: DarkTheme.PRIMARY_TEXT_COLOR,
         fontSize: 16
         // fontWeight: 'bold'
       }
