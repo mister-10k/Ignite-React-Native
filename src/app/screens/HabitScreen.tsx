@@ -1,11 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 
-type DummyProp = {
-    msg: string
+interface Props  {
 }
 
-export class HabitScreen extends React.Component<DummyProp> {
+interface State {
+
+}
+
+export class HabitScreen extends React.Component<Props, State> {
     constructor(props) {
         super(props);
     }

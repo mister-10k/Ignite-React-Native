@@ -1,11 +1,15 @@
 import React from "react";
 import { View } from "react-native";
 
-type BottomNavIconProp = {
+interface Props {
     iconName: string
 }
 
-export class BottomNavIcon extends React.Component<BottomNavIconProp> {
+interface State {
+    
+}
+
+export class BottomNavIcon extends React.Component<Props, State> {
     constructor(props) {
         super(props);
     }

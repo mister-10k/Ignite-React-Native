@@ -4,24 +4,20 @@ import { Card } from "../components/Card";
 import { ScrollView } from "react-native-gesture-handler";
 import moment from 'moment';
 
-interface HomeScreenProp  {
+interface Props  {
 }
 
-interface HomeScreenState  {
-  scrollEnabled: boolean
+interface State  {
+  isLoading: boolean
 }
 
-export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState> {
+export class HomeScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
 
     this.state = {
-      scrollEnabled: true
+      isLoading: true
     };
-  }
-
-  onSwipeLeft = (gestureState) => {
-    this.setState({scrollEnabled: false});
   }
 
   getCalendarStripDefaultTitle() {
@@ -37,25 +33,13 @@ export class HomeScreen extends React.Component<HomeScreenProp, HomeScreenState>
   }
 
   render() {  
-    const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 80
-    };
-    return (
-      <View>
-        <ScrollView 
-          bounces={false}
-          showsVerticalScrollIndicator={false} 
-          scrollEnabled={this.state.scrollEnabled}>
-            <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
-            <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
-        </ScrollView>     
-      </View>
-      // <GestureRecognizer
-      //   onSwipeLeft={this.onSwipeLeft}
-      //   config={config}
-      // >
-      // </GestureRecognizer>
-    );
+        return <View>
+                <ScrollView 
+                  bounces={false}
+                  showsVerticalScrollIndicator={false} >
+                    <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
+                    <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+                </ScrollView>     
+              </View>
   }
 }

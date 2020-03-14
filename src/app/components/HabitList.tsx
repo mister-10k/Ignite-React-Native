@@ -4,19 +4,18 @@ import { HabitListDetail } from "./HabitListDetail";
 import { Habit } from "../shared/types";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { SwipeRow, SwipeListView } from 'react-native-swipe-list-view';
-import { SheetBottom } from 'material-bread';
 import { NoteBottomSheet } from "./NoteBottomSheet";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-type DummyProp = {
+interface Props {
     msg?: string
 }
 
-interface HabitListState {
+interface State {
   showBottomSheet: boolean;
 }
 
-export class HabitList extends React.Component<DummyProp, HabitListState> {
+export class HabitList extends React.Component<Props, State> {
     openRowRefs = [];
     RBSheet: RBSheet;
 
@@ -62,7 +61,7 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
               </View>
             )}
             renderHiddenItem={ (data, rowMap) => (
-                <View style={this.styles.rowBack}>
+                <View style={[this.styles.rowBack, {backgroundColor: data.item.color ? data.item.color : "#858586"}]}>
                     <Text style={this.styles.backTextWhite}></Text>
                     <SimpleLineIcons name="notebook" size={25} color="white"/>
                 </View>
@@ -115,7 +114,7 @@ export class HabitList extends React.Component<DummyProp, HabitListState> {
         },
         rowBack: {
           alignItems: 'center',
-          backgroundColor: '#858586',
+          // backgroundColor: '#858586',
           flex: 1,
           flexDirection: 'row',
           justifyContent: 'space-between',

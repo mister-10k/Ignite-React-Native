@@ -16,3 +16,8 @@ export enum Days {
     Friday = 5,
     Saturday = 6
 }
+
+export interface Action {
+    type: string
+    payload: any
+}

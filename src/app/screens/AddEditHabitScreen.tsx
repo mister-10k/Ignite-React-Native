@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationScreenProp } from "react-navigation";
 import { RouteProp } from "@react-navigation/native";
 
-interface Prop {
+interface Props {
     title: string;
     habit?: Habit;
     navigation: NavigationScreenProp<any,any>
@@ -17,7 +17,7 @@ interface State {
   frequenciesAbbreviated: string;
 }
 
-export class AddEditHabitScreen extends React.Component<Prop, State> {
+export class AddEditHabitScreen extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 

@@ -4,19 +4,19 @@ import { HabitList } from "./HabitList";
 import { CalendarStrip } from "./CalendarStrip";
 import moment from 'moment';
 
-interface CardProp {
+interface Props {
   title: string;
   componentType: string;
   data?: any;
   paddingVertical?: number;
 }
 
-interface CardState {
+interface State {
   title: string;
   selectedDate: string;
 }
 
-export class Card extends React.Component<CardProp, CardState> {
+export class Card extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     

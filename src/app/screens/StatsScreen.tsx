@@ -1,11 +1,14 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-type DummyProp = {
-    msg: string
+interface Props  {
 }
 
-export class StatsScreen extends React.Component<DummyProp> {
+interface State {
+
+}
+
+export class StatsScreen extends React.Component<Props, State> {
     constructor(props) {
         super(props);
     }

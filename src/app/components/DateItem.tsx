@@ -8,7 +8,7 @@ import {
 import ChineseLunar from 'chinese-lunar';
 const width = Dimensions.get('window').width;
 
-interface DateItemProp  {
+interface Props  {
     item,
     marked,
     highlight,
@@ -17,11 +17,11 @@ interface DateItemProp  {
     color
 }
 
-interface DateItemState {
+interface State {
 
 }
 
-export class DateItem extends React.PureComponent<DateItemProp, DateItemState> {
+export class DateItem extends React.PureComponent<Props, State> {
   render() {  
     const {
         item,

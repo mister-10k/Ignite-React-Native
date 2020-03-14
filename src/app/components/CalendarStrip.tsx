@@ -35,7 +35,7 @@ const _month = _today.getMonth();
 const _day = _today.getDate();
 const TODAY = new Date(_year, _month, _day);
 
-interface CalendarStripProp  {
+interface Props  {
   getCurrentMonths: (months: string) => void,
   selectedDate: string,
   onPressDate: (date: string) => void,
@@ -48,14 +48,14 @@ interface CalendarStripProp  {
   weekStartsOn: number,
 }
 
-interface CalendarStripState  {
+interface State  {
   datas,
   isTodayVisible,
   pageOfToday,
   currentPage
 }
 
-export class CalendarStrip extends React.Component<CalendarStripProp, CalendarStripState> {
+export class CalendarStrip extends React.Component<Props, State> {
   colors: string [] = ['#DC6788', '#67B7DC', '#6794DC', '#6771DC', '#8067DC', '#A367DC', '#C767DC', '#DC67CE', '#DC67AB'];
   color: string;
 

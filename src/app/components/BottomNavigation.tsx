@@ -6,12 +6,16 @@ import { Entypo, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/v
 import RBSheet from "react-native-raw-bottom-sheet";
 import { AddEditHabitScreen } from "../screens/AddEditHabitScreen";
 
-interface BottomNavigationProp {
+interface Props {
     navigation,
     state
 }
 
-export class BottomNavigation extends React.Component<BottomNavigationProp> {
+interface State {
+
+}
+
+export class BottomNavigation extends React.Component<Props, State> {
     constructor(props) {
         super(props);
     }
