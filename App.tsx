@@ -103,7 +103,49 @@ headerAddEditHabit: ({ scene, previous, navigation }) => {
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-export default class App extends React.Component {
+interface Prop  {
+}
+
+interface State  {
+  isLoading: boolean
+}
+
+export default class App extends React.Component<Prop, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: true
+    };
+  }
+
+  // componentDidMount() {
+  //   AsyncStorage.getItem('theme').then((theme) => {
+  //     if (theme) {
+  //       DataShareService.sendTheme(theme);
+  //     } else {
+  //       DataShareService.sendTheme(AppConstants.DarkTheme);
+  //     }
+  //   });
+
+  //   this.setThemeSubscription();
+  // }
+
+  // componentWillUnmount() {
+  //   if (this.themeSub) {this.themeSub.unsubscribe()}
+  // }
+
+  // setThemeSubscription() {
+  //   this.themeSub = DataShareService.getTheme().subscribe(theme => {
+  //     if (theme) {
+  //       this.theme = theme;
+  //       this.setState({
+  //         isLoading: false
+  //       });
+  //     }
+  //   });
+  // }
+
   render() {  
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff'}}>          
