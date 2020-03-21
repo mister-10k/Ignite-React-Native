@@ -74,14 +74,6 @@ export class HabitList extends React.Component<Props, State> {
             scrollEnabled={false}
           />
 
-          {/* <SheetBottom
-            style={{borderTopLeftRadius: 10, borderTopRightRadius: 10}}
-            visible={this.state.showBottomSheet}
-            onBackdropPress={() => this.setState({ showBottomSheet: false })}
-            onSwipeDown={() => this.setState({ showBottomSheet: false })}>
-            <NoteBottomSheet closeBottomSheet={this.closeBottomSheet} leftBtnName={'Cancel'} title={'Note'} rightBtnName={'Save'}/>
-          </SheetBottom> */}
-
           <RBSheet
           ref={ref => {
             this.RBSheet = ref;

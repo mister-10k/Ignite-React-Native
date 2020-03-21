@@ -39,32 +39,6 @@ export class BottomNavigation extends React.Component<Props, State> {
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
                     <MaterialIcons name={'settings'} size={30} color={this.props.state.index == 4 ? "white" : "grey"}></MaterialIcons>
                 </TouchableOpacity>
-
-                {/* <RBSheet
-                    ref={ref => {
-                        this.RBSheet = ref;
-                    }}
-                    closeOnDragDown
-                    height={Dimensions.get('window').height * 0.95}
-                    duration={250}
-                    customStyles={{
-                        container: {
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        marginTop: 40
-                        // position: 'absolute',
-                        // top: 50
-                        },
-                        draggableIcon: { display: 'none'}
-                    }}
-                >
-                    <AddEditHabitBottomSheet 
-                        leftBtnName={'Cancel'}
-                        title={'Add Habit'}
-                        rightBtnName={'Add'}
-                        closeBottomSheet={this.closeBottomSheet}
-                    />
-                </RBSheet> */}
             </View> 
         )
     }

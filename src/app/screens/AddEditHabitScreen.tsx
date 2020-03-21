@@ -4,6 +4,9 @@ import { Days, Habit } from "../shared/types";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationScreenProp } from "react-navigation";
 import { RouteProp } from "@react-navigation/native";
+import { DarkTheme } from "../shared/themes/Dark";
+import { DaySelect } from "../components/DaySelect";
+import { ColorSelect } from "../components/ColorSelect";
 
 interface Props {
     title: string;
@@ -82,90 +85,53 @@ export class AddEditHabitScreen extends React.Component<Props, State> {
     render() { 
         return (
             <View style={this.styles.container}>
-            {/* <View style={this.styles.headerContainer}>
-                <TouchableOpacity style={this.styles.leftBtn} onPress={this.closeBottomSheet}>
-                    <Text style={this.styles.leftBtnText}>{this.props.leftBtnName}</Text>
-                </TouchableOpacity>
 
-                <Text style={this.styles.title}>{this.props.title}</Text>
+              <View style={this.styles.row}>
+                  <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Habit Name</Text></View>
+                  <View style={this.styles.rowBody}><TextInput style={this.styles.rowInput}/></View>
+              </View>
+              <View style={this.styles.row}>
+                  <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Frequency</Text></View>
+                  <View style={{marginTop: 15}}><DaySelect/></View>
+                  {/* <View style={this.styles.rowBody}><Text style={this.styles.rowInput}>{this.state.frequenciesAbbreviated}</Text></View> */}
+              </View>
+              <View style={this.styles.row}>
+                  <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Color</Text></View>
+                  <View style={{marginTop: 15}}><ColorSelect/></View>
+                  {/* <View style={this.styles.rowBody}><Text style={this.styles.rowInput}>{this.state.frequenciesAbbreviated}</Text></View> */}
+              </View>
 
-                <TouchableOpacity style={this.styles.rightBtn} onPress={this.rightBtnClicked}>
-                  <Text style={this.styles.rightBtnText}>{this.props.rightBtnName}</Text>
-                </TouchableOpacity>
-            </View> */}
-
-            <View style={this.styles.body}>
-                <View style={this.styles.row}>
-                    <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Habit Name</Text></View>
-                    <View style={this.styles.rowBody}><TextInput style={this.styles.rowInput}/></View>
-                </View>
-                <View style={this.styles.row}>
-                    <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Frequency</Text></View>
-                    <View style={this.styles.rowBody}><Text>{this.state.frequenciesAbbreviated}</Text></View>
-                </View>
-            </View>
           </View>
         )
     }
 
     styles = StyleSheet.create({
         container: {
-          height: Dimensions.get('window').height * 0.91,
-          marginTop: 10,
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10
-        },
-        headerContainer: {
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-          borderBottomWidth: 1,
-          paddingVertical: 15,
-          paddingHorizontal: 10,
-          borderColor: 'rgba(100,100,100,0.1)'
-        },
-        body: {
+          // height: Dimensions.get('window').height * 0.91,
+          paddingTop: 10,
           paddingHorizontal: 10
-        },
-        leftBtn: {
-  
-        },
-        leftBtnText: {
-          fontSize: 16
-        },
-        title: {
-          fontWeight: 'bold',
-          fontSize: 16
-        },
-        rightBtn: {
-        },
-        rightBtnText: {
-          color: 'black',
-          fontSize: 16
-          // fontWeight: 'bold'
         },
         rowInput: {
             fontSize: 16,
-            color: 'black'
+            color: DarkTheme.PRIMARY_TEXT_COLOR
         },
         row: {
-            alignItems: 'center',
-            flexDirection: 'row',
-            height: 50
+            flexDirection: 'column',
+            marginBottom: 40
         },
         rowNameWrapper: {
             width: 120
         },
         rowName: {
-            fontSize: 16
+            fontSize: 16,
+            color: DarkTheme.PRIMARY_TEXT_COLOR
         },
         rowBody: {
             justifyContent: 'center',
             borderBottomWidth: 1,
-            borderColor: 'rgba(100,100,100,0.1)',
-            width: Dimensions.get('window').width - 140,
-            height: '100%'
+            borderColor: 'rgba(100,100,100,0.4)',
+            width: '100%',
+            minHeight: 40,
         }
     });
   }

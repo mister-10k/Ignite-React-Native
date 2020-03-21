@@ -34,13 +34,15 @@ export class HomeScreen extends React.Component<Props, State> {
   }
 
   render() {  
-        return <View style={{backgroundColor: DarkTheme.ACCENT_COLOR}}>
-                <ScrollView 
-                  bounces={false}
-                  showsVerticalScrollIndicator={false} >
-                    <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
-                    <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
-                </ScrollView>     
-              </View>
+        return ( 
+            <View style={{backgroundColor: DarkTheme.ACCENT_COLOR}}>
+              <ScrollView 
+                bounces={false}
+                showsVerticalScrollIndicator={false} >
+                  <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
+                  <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+              </ScrollView>     
+            </View>
+        );
   }
 }

@@ -7,6 +7,17 @@ export interface Habit {
     frequency: Array<Days>
 }
 
+export enum HabitColor {
+    SoftPink = '#DC6788',
+    SoftBlue ='#67B7DC',
+    SoftBlue2 =  '#6794DC',
+    SoftBlue3 = '#6771DC',
+    SoftPurple = '#8067DC',
+    SoftViolet =  '#A367DC',
+    SoftMagenta = '#C767DC',
+    SoftMagenta2 =  '#DC67CE'
+}
+
 export enum Days {
     Sunday = 0,
     Monday = 1,

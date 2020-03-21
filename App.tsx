@@ -108,7 +108,7 @@ interface Prop  {
 }
 
 interface State  {
-  isLoading: boolean
+  navigationIndex: number
 }
 
 export default class App extends React.Component<Prop, State> {
@@ -127,72 +127,60 @@ export default class App extends React.Component<Prop, State> {
     super(props);
 
     this.state = {
-      isLoading: true
+      navigationIndex: 0
     };
   }
 
-  // componentDidMount() {
-  //   AsyncStorage.getItem('theme').then((theme) => {
-  //     if (theme) {
-  //       DataShareService.sendTheme(theme);
-  //     } else {
-  //       DataShareService.sendTheme(AppConstants.DarkTheme);
-  //     }
-  //   });
+  getColorOfBottomOfSafeAreaView(): string {
+    if (this.state.navigationIndex == 0) {
+      return DarkTheme.PRIMARY_COLOR;
+    }
+    else {
+      return DarkTheme.ACCENT_COLOR;
+    }
+  }
 
-  //   this.setThemeSubscription();
-  // }
-
-  // componentWillUnmount() {
-  //   if (this.themeSub) {this.themeSub.unsubscribe()}
-  // }
-
-  // setThemeSubscription() {
-  //   this.themeSub = DataShareService.getTheme().subscribe(theme => {
-  //     if (theme) {
-  //       this.theme = theme;
-  //       this.setState({
-  //         isLoading: false
-  //       });
-  //     }
-  //   });
-  // }
-
-  render() {  
+  render() { 
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: DarkTheme.PRIMARY_COLOR}}>          
-          <NavigationContainer theme={this.theme}>
-          <Stack.Navigator>
-            <Stack.Screen name="Ignite" component={Root} />
-            <Stack.Screen
-              name="AddEditHabit"
-              component={AddEditHabitScreen}
-              options={({navigation, route}) => ({
-                  cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-                  gestureDirection: 'vertical',
-                  gestureResponseDistance: { horizontal: 25, vertical: Dimensions.get('window').height},
-                  // safeAreaInsets: { bottom: 20},
-                  title: 'Add Habit',
-                  headerLeft: () => {
-                    return (
-                      <TouchableOpacity onPress={() => {navigation.goBack()}} style={{marginLeft: 10}}>
-                        <Text style={{color: 'white', fontSize: 16}}>Cancel</Text>
-                      </TouchableOpacity>
-                    )
-                  },
-                  headerRight: () => {
-                    return (
-                      <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
-                        <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
-                      </TouchableOpacity>
-                    )
-                  } 
-
-              })}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
+      // <SafeAreaView style={{ flex: 1, backgroundColor: DarkTheme.PRIMARY_COLOR}}>
+      <SafeAreaView forceInset={{ top: 'never'}} style={{ flex: 1, backgroundColor: this.getColorOfBottomOfSafeAreaView()}}>
+          <NavigationContainer 
+            onStateChange={(newState) => {
+              if (newState.index != this.state.navigationIndex) {
+                this.setState({ navigationIndex: newState.index });
+              }
+            }} 
+            theme={this.theme}>
+            <Stack.Navigator>
+              <Stack.Screen name="Ignite" component={Root} />
+              <Stack.Screen
+                name="AddEditHabit"
+                component={AddEditHabitScreen}
+                options={({navigation, route}) => ({
+                    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+                    gestureDirection: 'vertical',
+                    // gestureResponseDistance: { horizontal: 25, vertical: Dimensions.get('window').height},
+                    // safeAreaInsets: { bottom: 20},
+                    title: 'Add Habit',
+                    headerLeft: () => {
+                      return (
+                        <TouchableOpacity onPress={() => {navigation.goBack()}} style={{marginLeft: 10}}>
+                          <Text style={{color: 'white', fontSize: 16}}>Cancel</Text>
+                        </TouchableOpacity>
+                      )
+                    },
+                    headerRight: () => {
+                      return (
+                        <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
+                          <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
+                        </TouchableOpacity>
+                      )
+                    } 
+                })}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
     );
   }
 }
