@@ -4,6 +4,7 @@ import { DayItem } from "./DayItem";
 import { Days } from "../shared/types";
 
 interface Props {
+    onDaySelect: (frequency: Array<Days>) => void
 }
 
 interface State {
@@ -28,12 +29,19 @@ export class DaySelect extends React.Component<Props, State> {
     }
 
     onDaySelect = (dayId: Days, selected: boolean) => {
-        console.log(dayId, selected);
+        const days = [...this.state.days];
+        const index = days.findIndex(day => day.id == dayId);
+        days[index].selected = selected;
+
+        this.setState({ days: days});
+
+        this.props.onDaySelect(days.filter(d => d.selected == true).map(x => x.id));
     }
 
     render() {  
         return (
             <FlatList
+                scrollEnabled={false}
                 horizontal
                 keyExtractor={(item) => item.id.toString()}
                 data={this.state.days}

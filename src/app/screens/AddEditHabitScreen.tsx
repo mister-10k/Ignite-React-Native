@@ -11,13 +11,12 @@ import { ColorSelect } from "../components/ColorSelect";
 interface Props {
     title: string;
     habit?: Habit;
-    navigation: NavigationScreenProp<any,any>
+    navigation
     route: RouteProp<any,any>
 }
 
 interface State {
-  currentHabit: Habit;
-  frequenciesAbbreviated: string;
+  habit: Habit;
 }
 
 export class AddEditHabitScreen extends React.Component<Props, State> {
@@ -25,7 +24,7 @@ export class AddEditHabitScreen extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-          currentHabit: {
+          habit: {
             name: '',
             frequency: [
               Days.Sunday,
@@ -36,50 +35,56 @@ export class AddEditHabitScreen extends React.Component<Props, State> {
               Days.Friday,
               Days.Saturday
             ],
-            streak: 0
-          },
-          frequenciesAbbreviated: ''
+            streak: 0,
+            color: null
+          }
         };
+
+        this.props.navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity onPress={()=>{this.saveHabit()}} style={{marginRight: 10}}>
+                <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
+            </TouchableOpacity>
+          ),
+        });
+
+        if (this.props.habit) {
+          this.setState({ habit: this.props.habit})
+        }
     }
 
-    componentDidMount() {
-      this.props.navigation.setParams({ saveHabit: this.saveHabit });
-
-      if (this.props.habit) {
-        this.setState({ currentHabit: this.props.habit})
-      }
-      this.setDayAbbreviations();
+    onHabitNameChange = (name: string) => {
+      const habit = { ...this.state.habit};
+      habit.name = name;
+      this.setState({ habit: habit});
     }
 
-    setDayAbbreviations() {
-      let abbreviations = '';
-      this.state.currentHabit.frequency.forEach((f,index) => {
-        let letter = '';
-        if (f == Days.Sunday || f == Days.Saturday) {
-          letter = 'S';
-        } else if (f == Days.Monday) {
-          letter = 'M'
-        } else if (f == Days.Tuesday || f == Days.Thursday) {
-          letter = 'T'
-        } else if (f == Days.Wednesday) {
-          letter = 'W'
-        } else { // Friday
-          letter = 'F'
-        }
+    onDaySelect = (frequency: Array<Days>) => {
+      const habit = { ...this.state.habit};
+      habit.frequency = frequency;
+      this.setState({ habit: habit});
+    }
 
-
-        if (index == 0) {
-          abbreviations += letter;
-        } else {
-          abbreviations +=  ',' + letter;
-        }
-      });
-
-      this.setState({frequenciesAbbreviated: abbreviations });
+    onColorSelect = (colorId: string) => {
+      const habit = { ...this.state.habit};
+      habit.color = colorId;
+      this.setState({ habit: habit});
     }
 
     saveHabit() {
-      alert('hi');
+      if (this.state.habit.name == null || this.state.habit.name == '') {
+        alert('Habit name is required.');
+        return;
+      }
+
+      if (this.state.habit.frequency.length == 0) {
+        alert('Please select at least one day for frequency.');
+        return;
+      }
+
+      if (this.state.habit.color == null) {
+        alert('Please select a color.')
+      }
     }
       
     render() { 
@@ -87,17 +92,20 @@ export class AddEditHabitScreen extends React.Component<Props, State> {
             <View style={this.styles.container}>
 
               <View style={this.styles.row}>
-                  <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Habit Name</Text></View>
-                  <View style={this.styles.rowBody}><TextInput style={this.styles.rowInput}/></View>
+                  {/* <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Habit Name</Text></View> */}
+                  <TextInput
+                    placeholder={'Habit name'}
+                    placeholderTextColor="grey"
+                    onChangeText={(name) => {this.onHabitNameChange((name))}} style={this.styles.rowInput}/>
               </View>
               <View style={this.styles.row}>
                   <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Frequency</Text></View>
-                  <View style={{marginTop: 15}}><DaySelect/></View>
+                  <View style={{marginTop: 15}}><DaySelect onDaySelect={this.onDaySelect}/></View>
                   {/* <View style={this.styles.rowBody}><Text style={this.styles.rowInput}>{this.state.frequenciesAbbreviated}</Text></View> */}
               </View>
               <View style={this.styles.row}>
                   <View style={this.styles.rowNameWrapper}><Text style={this.styles.rowName}>Color</Text></View>
-                  <View style={{marginTop: 15}}><ColorSelect/></View>
+                  <View style={{marginTop: 15}}><ColorSelect onColorSelect={this.onColorSelect}/></View>
                   {/* <View style={this.styles.rowBody}><Text style={this.styles.rowInput}>{this.state.frequenciesAbbreviated}</Text></View> */}
               </View>
 
@@ -113,7 +121,11 @@ export class AddEditHabitScreen extends React.Component<Props, State> {
         },
         rowInput: {
             fontSize: 16,
-            color: DarkTheme.PRIMARY_TEXT_COLOR
+            color: DarkTheme.PRIMARY_TEXT_COLOR,
+            backgroundColor: '#1C1C1C',
+            paddingHorizontal: 10,
+            height: 40,
+            borderRadius: 5
         },
         row: {
             flexDirection: 'column',

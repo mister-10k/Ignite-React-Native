@@ -10,21 +10,15 @@ interface Props {
 }
 
 interface State {
-    selected: boolean;
 }
 
 export class ColorItem extends React.Component<Props, State> {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            selected: this.props.selected
-        };
     }
 
     pressed = () => {
-        this.setState({selected: !this.state.selected});
-        this.props.onColorSelect(this.props.colorId, this.state.selected);
+        this.props.onColorSelect(this.props.colorId, !this.props.selected);
     }
 
     render() {  
@@ -32,8 +26,8 @@ export class ColorItem extends React.Component<Props, State> {
             <TouchableOpacity 
                 style={[
                     this.styles.container,
-                    {borderColor: this.state.selected ? 'white' : ''},
-                    {borderWidth: this.state.selected ? 2 : 0},
+                    {borderColor: this.props.selected ? 'white' : ''},
+                    {borderWidth: this.props.selected ? 2 : 0},
                     {marginLeft: this.props.leftMargin ? 10 : 0}
                 ]}
                 onPress={this.pressed}>

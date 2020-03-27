@@ -4,6 +4,7 @@ import { HabitColor } from "../shared/types";
 import { ColorItem } from "./ColorItem";
 
 interface Props {
+    onColorSelect: (colorId: HabitColor) => void
 }
 
 interface State {
@@ -27,13 +28,28 @@ export class ColorSelect extends React.Component<Props, State> {
         };
     }
 
-    onColorSelect = (colorId: string, selectede: boolean) => {
+    onColorSelect = (colorId: string, selected: boolean) => {
+        const colors = [...this.state.colors];
+        colors.forEach(color => {
+            if (color.id == colorId) {
+                color.selected = selected;
 
+                if (color.selected) {
+                    this.props.onColorSelect(color.id);
+                } else {
+                    this.props.onColorSelect(null);
+                }
+            } else {
+                color.selected = false;
+            }
+        });
+        this.setState({colors: colors});
     }
 
     render() {  
         return (
             <FlatList
+                scrollEnabled={false}
                 horizontal
                 keyExtractor={(item) => item.id.toString()}
                 data={this.state.colors}

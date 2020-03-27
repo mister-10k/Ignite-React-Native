@@ -12,7 +12,6 @@ interface Props {
 }
 
 interface State {
-    selected: boolean;
 }
 
 export class DayItem extends React.Component<Props, State> {
@@ -25,8 +24,7 @@ export class DayItem extends React.Component<Props, State> {
     }
 
     pressed = () => {
-        this.setState({selected: !this.state.selected});
-        this.props.onDaySelect(this.props.dayId, this.state.selected);
+        this.props.onDaySelect(this.props.dayId, !this.props.selected);
     }
 
     render() {  
@@ -34,7 +32,7 @@ export class DayItem extends React.Component<Props, State> {
             <TouchableOpacity 
                 style={[
                     this.styles.container,
-                    {backgroundColor: this.state.selected ? 'grey' : 'black'},
+                    {backgroundColor: this.props.selected ? 'grey' : 'black'},
                     {marginLeft: this.props.leftMargin ? 10 : 0}
                 ]}
                 onPress={this.pressed}>

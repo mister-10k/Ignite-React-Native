@@ -169,13 +169,13 @@ export default class App extends React.Component<Prop, State> {
                         </TouchableOpacity>
                       )
                     },
-                    headerRight: () => {
-                      return (
-                        <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
-                          <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
-                        </TouchableOpacity>
-                      )
-                    } 
+                    // headerRight: () => {
+                    //   return (
+                    //     <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
+                    //       <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
+                    //     </TouchableOpacity>
+                    //   )
+                    // } 
                 })}
               />
             </Stack.Navigator>

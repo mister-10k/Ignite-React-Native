@@ -3,7 +3,7 @@ export interface Habit {
     icon?: string;
     name: string; 
     streak: number;
-    color?: string,
+    color: string,
     frequency: Array<Days>
 }
 
