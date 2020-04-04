@@ -1,10 +1,14 @@
+import moment from 'moment';
+
 export interface Habit {
-    id?: number; 
+    id: number; 
     icon?: string;
     name: string; 
     streak: number;
     color: string,
-    frequency: Array<Days>
+    frequency: Array<Days>,
+    statusLog: Array<StatusLog>,
+    createdAt: moment.Moment
 }
 
 export enum HabitColor {
@@ -31,4 +35,18 @@ export enum Days {
 export interface Action {
     type: string
     payload: any
+}
+
+export type RootStackParamList = {
+    AddEditHabit: { };
+};
+
+export enum StatusLogType {
+    Complete = 0,
+    Skip = 1
+}
+
+export interface StatusLog {
+    date: moment.Moment,
+    type: StatusLogType
 }

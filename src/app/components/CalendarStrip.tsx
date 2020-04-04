@@ -69,6 +69,8 @@ export class CalendarStrip extends React.Component<Props, State> {
       pageOfToday: 2, // page of today in calendar, start from 0
       currentPage: 2, // current page in calendar,  start from 0
     };
+
+    this.onMount();
   }
 
   getRandomArbitrary(min, max) {
@@ -84,7 +86,7 @@ export class CalendarStrip extends React.Component<Props, State> {
   _panResponder;
   _calendar;
 
-  componentWillMount() {
+  onMount() {
     const touchThreshold = 50;
     const speedThreshold = 0.2;
     this._panResponder = PanResponder.create({
@@ -101,7 +103,7 @@ export class CalendarStrip extends React.Component<Props, State> {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (isSameDay(nextProps.selectedDate, this.props.selectedDate)) return;
     const nextSelectedDate = nextProps.selectedDate;
     if (!this.currentPageDatesIncludes(nextSelectedDate)) {

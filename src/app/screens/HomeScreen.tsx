@@ -6,10 +6,11 @@ import moment from 'moment';
 import { DarkTheme } from "../shared/themes/Dark";
 
 interface Props  {
+  navigation
 }
 
 interface State  {
-  isLoading: boolean
+  selectedDate: moment.Moment
 }
 
 export class HomeScreen extends React.Component<Props, State> {
@@ -17,8 +18,12 @@ export class HomeScreen extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      isLoading: true
+      selectedDate: moment()
     };
+  }
+
+  dateChanged = (selectedDate: moment.Moment) => {
+    this.setState({selectedDate: selectedDate});
   }
 
   getCalendarStripDefaultTitle() {
@@ -39,8 +44,19 @@ export class HomeScreen extends React.Component<Props, State> {
               <ScrollView 
                 bounces={false}
                 showsVerticalScrollIndicator={false} >
-                  <Card title={this.getCalendarStripDefaultTitle()} componentType={"calendar"} paddingVertical={0}/>
-                  <Card title={"Habits"} componentType={"habitList"} paddingVertical={0}></Card>
+                  <Card
+                    title={this.getCalendarStripDefaultTitle()}
+                    componentType={"calendar"}
+                    paddingVertical={0}
+                    cb1={this.dateChanged}
+                  />
+                  <Card
+                    title={"Habits"}
+                    data={this.state.selectedDate}
+                    navigation={this.props.navigation}
+                    componentType={"habitList"}
+                    paddingVertical={0}
+                  />
               </ScrollView>     
             </View>
         );

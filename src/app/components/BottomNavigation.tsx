@@ -50,7 +50,9 @@ export class BottomNavigation extends React.Component<Props, State> {
             backgroundColor: DarkTheme.PRIMARY_COLOR,
             height: 40,
             paddingHorizontal: 30,
-            paddingTop: 10
+            paddingTop: 10,
+            borderTopWidth: 1,
+            borderTopColor: 'rgba(133,133,134,0.1)'
         }
     });
   }

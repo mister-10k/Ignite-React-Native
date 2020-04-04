@@ -3,12 +3,17 @@ import { View, Text, StyleSheet } from "react-native";
 import { HabitList } from "./HabitList";
 import { CalendarStrip } from "./CalendarStrip";
 import moment from 'moment';
+import { DarkTheme } from "../shared/themes/Dark";
 
 interface Props {
   title: string;
   componentType: string;
   data?: any;
   paddingVertical?: number;
+  navigation?;
+  cb1?; // callback1 (optional)
+  cb2?; // callback2 (optional)
+  cb3?; // callbacl3 (optional)
 }
 
 interface State {
@@ -48,6 +53,7 @@ export class Card extends React.Component<Props, State> {
               getCurrentMonths={this.changeTitleFromChild}
               selectedDate={this.state.selectedDate}
               onPressDate={(date) => {
+                this.props.cb1(moment(date));
                 this.setState({ selectedDate: date });
               }}
               onPressGoToday={(today) => {
@@ -59,7 +65,7 @@ export class Card extends React.Component<Props, State> {
               markedDate={['2018-05-04', '2018-05-15', '2018-06-04', '2018-05-01']}
             />
         case "habitList":
-          return <HabitList/>;
+          return <HabitList selectedDate={this.props.data} navigation={this.props.navigation}/>;
         default:
           return <View>Reload...</View>;
       }
@@ -71,7 +77,11 @@ export class Card extends React.Component<Props, State> {
       },
       containerInner: {
         paddingVertical: this.props.paddingVertical != null ? this.props.paddingVertical : 10,
-        backgroundColor: 'white'
+        backgroundColor: DarkTheme.PRIMARY_COLOR,
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(133,133,134,0.1)',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(133,133,134,0.1)',
       },
       title: {
         marginLeft: 10,

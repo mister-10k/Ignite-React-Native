@@ -118,7 +118,7 @@ export default class App extends React.Component<Prop, State> {
       ...DefaultTheme.colors,
       background: 'black',
       text: 'white',
-      border: 'rgba(100,100,100,0.1)',
+      border: 'rgba(133,133,134,0.1)',
       card: DarkTheme.PRIMARY_COLOR,
     },
   };
