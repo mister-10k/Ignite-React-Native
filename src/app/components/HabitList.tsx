@@ -57,17 +57,6 @@ export class HabitList extends React.Component<Props, State> {
       });
     }
 
-    // habits: Habit [] = [
-    //   { id: 1, icon: '', name: 'journal', streak: 123, color: '#DC6788', frequency: [] },
-    //   { id: 2, icon: '', name: 'meditate', streak: 10,  color: '#67B7DC', frequency: [] },
-    //   { id: 3, icon: '', name: 'read/podcast', streak: 13,  color: '#6794DC', frequency: [] },
-    //   { id: 4, icon: '', name: 'Plan One Thing', streak: 1,  color: '#6771DC', frequency: [] },
-    //   { id: 5, icon: '', name: 'hiiiii', streak: 111,  color: '#8067DC', frequency: [] },
-    //   { id: 6, icon: '', name: 'byeeeee', streak: 111,  color: '#A367DC', frequency: [] },
-    //   { id: 7, icon: '', name: 'run', streak: 111,  color: '#C767DC', frequency: [] },
-    //   { id: 8, icon: '', name: 'Swim', streak: 111,  color: '#DC67CE', frequency: [] }
-    // ]
-
     onRowOpen = (rowKey, rowMap) => {
       this.RBSheet.open();
       const ref = rowMap[rowKey];

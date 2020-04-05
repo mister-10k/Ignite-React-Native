@@ -18,7 +18,6 @@ interface HabitListDetailState {
   streak: number
 }
 
-
 export class HabitListDetail extends React.Component<HabitListDetailProp, HabitListDetailState> {
     constructor(props) {
       super(props);
@@ -30,6 +29,10 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
     }
 
     componentDidUpdate(prevProps) {
+      if (!this.sameStatusLogs(this.props.habit.statusLog, prevProps.habit.statusLog) || !prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
+        this.setState({streak: this.getStatusLogStreak(this.props.habit.statusLog)});
+      }
+
       if (!prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
         const completedForDate = this.props.habit.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.date), 'day') && x.type == StatusLogType.Complete) > -1;
 
@@ -37,24 +40,22 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
           this.setState({checked: completedForDate});
         }
 
-        this.setState({streak: this.getStatusLogStreak(this.props.habit.statusLog)});
-
       }
     }
 
-    // sameStatusLogs(sl1: Array<StatusLog>, sl2: Array<StatusLog>): boolean {
-    //   if (sl1.length != sl2.length) {
-    //     return false;
-    //   }
+    sameStatusLogs(sl1: Array<StatusLog>, sl2: Array<StatusLog>): boolean {
+      if (sl1.length != sl2.length) {
+        return false;
+      }
 
-    //   for (let i = 0; i < sl1.length; i++) {
-    //     if (!(moment(sl1[i].date).isSame(moment(sl2[i].date), 'day') && sl1[i].type == sl2[i].type)) {
-    //       return false;
-    //     }
-    //   }
+      for (let i = 0; i < sl1.length; i++) {
+        if (!(moment(sl1[i].date).isSame(moment(sl2[i].date), 'day') && sl1[i].type == sl2[i].type)) {
+          return false;
+        }
+      }
 
-    //   return true;
-    // }
+      return true;
+    }
 
    checkUnceck = async () => {
       const newState = !this.state.checked;
@@ -81,8 +82,12 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
         }
 
         const tempDate = moment(this.props.selectedDate);
-        let streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
         let streak = 0;
+        let streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+        if (!streaking) { // if not from selected date then try day before
+          tempDate.subtract(1, 'days');
+          streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+        }
 
         if (streaking) {
           while (streaking) {
@@ -132,24 +137,23 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
                     {
                       this.state.streak < 0 &&
                       <View style={this.styles.streakWrapper}>
-                          <View style={{marginTop: 3}}>
+                          {/* <View style={{marginTop: 3}}>
                             <MaterialCommunityIcons name="power-sleep" size={25} color="#858586" />
-                          </View>
-
+                          </View> */}
                           <Text style={this.styles.streakNumber}>{Math.abs(this.state.streak)}</Text>
+                          <Text style={this.styles.emoji}>😴</Text>
                       </View>
                     }
                     {
                       this.state.streak == 0 &&
-                      <View style={this.styles.iconWrapper}>
-                          <Octicons name="dash" size={25} color="#858586" />
-                      </View>
+                      <View></View>
                     }
                     {
                       this.state.streak > 0 &&
                       <View style={this.styles.streakWrapper}>
-                        <Ionicons name="md-flame" size={25} color="#CD5C5C" />
-                        <Text style={this.styles.streakNumber}>{this.state.streak}</Text>
+                        {/* <Ionicons name="md-flame" size={25} color="#CD5C5C" /> */}
+                        <Text style={[this.styles.streakNumber, {marginTop: 2}]}>{this.state.streak}</Text>
+                        <Text style={this.styles.emoji}>🔥</Text>
                       </View> 
                     }     
                 </View>
@@ -196,9 +200,14 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
           },
 
           streakNumber: {
-            marginTop: 7,
-            marginLeft: 5,
-            color: "#858586"
+            // marginTop: 7,
+            marginRight: 5,
+            color: "#858586",
+            fontSize: 16
+          },
+
+          emoji: {
+            fontSize: 16
           },
 
           habitNameWrapper: {
