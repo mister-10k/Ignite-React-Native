@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, TransitionSpecs, CardStyleInterpolators } from '@react-navigation/stack';
 import { createAppContainer, SafeAreaView, NavigationScreenProp } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text, View, StatusBar, Button, Dimensions, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Button, Dimensions } from 'react-native';
 import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';

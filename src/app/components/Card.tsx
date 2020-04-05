@@ -4,6 +4,7 @@ import { HabitList } from "./HabitList";
 import { CalendarStrip } from "./CalendarStrip";
 import moment from 'moment';
 import { DarkTheme } from "../shared/themes/Dark";
+import * as Haptics from 'expo-haptics';
 
 interface Props {
   title: string;
@@ -52,7 +53,8 @@ export class Card extends React.Component<Props, State> {
           return <CalendarStrip
               getCurrentMonths={this.changeTitleFromChild}
               selectedDate={this.state.selectedDate}
-              onPressDate={(date) => {
+              onPressDate={async (date) => {
+                await Haptics.selectionAsync();
                 this.props.cb1(moment(date));
                 this.setState({ selectedDate: date });
               }}

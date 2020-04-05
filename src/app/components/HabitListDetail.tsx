@@ -5,6 +5,8 @@ import { Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements';
 import { DarkTheme } from "../shared/themes/Dark";
 import moment from "moment";
+import * as Haptics from 'expo-haptics';
+
 
 interface HabitListDetailProp {
   habit: Habit;
@@ -19,6 +21,12 @@ interface HabitListDetailState {
 }
 
 export class HabitListDetail extends React.Component<HabitListDetailProp, HabitListDetailState> {
+    hapticOptions = {
+      enableVibrateFallback: true,
+      ignoreAndroidSystemSettings: false
+    };
+
+
     constructor(props) {
       super(props);
 
@@ -58,6 +66,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
     }
 
    checkUnceck = async () => {
+      await Haptics.selectionAsync();
       const newState = !this.state.checked;
       const habits = JSON.parse(await AsyncStorage.getItem('habits')) as Array<Habit>;
       const index = habits.findIndex(x => x.id == this.props.habit.id);

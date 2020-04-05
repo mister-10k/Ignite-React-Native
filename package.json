@@ -16,6 +16,7 @@
     "@types/react-navigation": "^3.4.0",
     "@types/react-redux": "^7.1.7",
     "expo": "~36.0.0",
+    "expo-haptics": "^8.1.0",
     "fontisto": "^3.0.4",
     "moment": "^2.24.0",
     "react": "~16.9.0",

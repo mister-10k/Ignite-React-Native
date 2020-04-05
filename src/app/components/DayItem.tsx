@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Days } from "../shared/types";
+import * as Haptics from 'expo-haptics';
 
 interface Props {
     selected: boolean;
@@ -23,7 +24,8 @@ export class DayItem extends React.Component<Props, State> {
         };
     }
 
-    pressed = () => {
+    pressed = async () => {
+        await Haptics.selectionAsync();
         this.props.onDaySelect(this.props.dayId, !this.props.selected);
     }
 
@@ -35,7 +37,7 @@ export class DayItem extends React.Component<Props, State> {
                     {backgroundColor: this.props.selected ? 'grey' : 'black'},
                     {marginLeft: this.props.leftMargin ? 10 : 0}
                 ]}
-                onPress={this.pressed}>
+                onPress={async () => {await this.pressed()}}>
                 <Text style={this.styles.dayAbbreviation}>{this.props.dayAbbreviation}</Text>
             </TouchableOpacity>
         );

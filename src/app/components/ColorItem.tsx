@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { HabitColor } from "../shared/types";
+import * as Haptics from 'expo-haptics';
 
 interface Props {
     selected: boolean;
@@ -17,7 +18,8 @@ export class ColorItem extends React.Component<Props, State> {
         super(props);
     }
 
-    pressed = () => {
+    pressed = async () => {
+        await Haptics.selectionAsync();
         this.props.onColorSelect(this.props.colorId, !this.props.selected);
     }
 
@@ -30,7 +32,7 @@ export class ColorItem extends React.Component<Props, State> {
                     {borderWidth: this.props.selected ? 2 : 0},
                     {marginLeft: this.props.leftMargin ? 10 : 0}
                 ]}
-                onPress={this.pressed}>
+                onPress={async () => { await this.pressed()}}>
             </TouchableOpacity>
         );
     }
