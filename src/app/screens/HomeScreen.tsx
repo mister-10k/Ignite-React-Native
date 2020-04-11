@@ -46,7 +46,7 @@ export class HomeScreen extends React.Component<Props, State> {
                 showsVerticalScrollIndicator={false} >
                   <Card
                     title={this.getCalendarStripDefaultTitle()}
-                    componentType={"calendar"}
+                    componentType={"calendarStrip"}
                     paddingVertical={0}
                     cb1={this.dateChanged}
                   />

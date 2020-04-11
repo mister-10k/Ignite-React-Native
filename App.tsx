@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, TransitionSpecs, CardStyleInterpolators } from '@react-navigation/stack';
 import { createAppContainer, SafeAreaView, NavigationScreenProp } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text, View, StatusBar, Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Button, Dimensions, AsyncStorage } from 'react-native';
 import { HomeScreen } from './src/app/screens/HomeScreen';
 import { HabitScreen } from './src/app/screens/HabitScreen';
 import { SettingsScreen } from './src/app/screens/SettingsScreen';
@@ -169,13 +169,12 @@ export default class App extends React.Component<Prop, State> {
                         </TouchableOpacity>
                       )
                     },
-                    // headerRight: () => {
-                    //   return (
-                    //     <TouchableOpacity onPress={()=>{(route.params as any).saveHabit}} style={{marginRight: 10}}>
-                    //       <Text style={{color: 'white',fontWeight: 'bold', fontSize: 16}}>Save</Text>
-                    //     </TouchableOpacity>
-                    //   )
-                    // } 
+                })}
+              />
+              <Stack.Screen
+                name="Habit"
+                component={HabitScreen}
+                options={({navigation, route}) => ({
                 })}
               />
             </Stack.Navigator>

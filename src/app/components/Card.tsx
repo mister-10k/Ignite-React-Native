@@ -5,6 +5,17 @@ import { CalendarStrip } from "./CalendarStrip";
 import moment from 'moment';
 import { DarkTheme } from "../shared/themes/Dark";
 import * as Haptics from 'expo-haptics';
+import { CalendarList, LocaleConfig } from 'react-native-calendars';
+
+LocaleConfig.locales['IG'] = {
+  monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+  monthNamesShort: ['Jan.','Feb.','Mar.','Apr.','Mai','Jun.','Jul.','Aug.','Sept.','Oct.','Nov.','Dec.'],
+  dayNames: ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+  dayNamesShort: ['S','M','T','W','T','F','S'],
+  today: 'Today'
+};
+LocaleConfig.defaultLocale = 'IG';
+
 
 interface Props {
   title: string;
@@ -49,7 +60,7 @@ export class Card extends React.Component<Props, State> {
 
   factory() {
       switch (this.props.componentType) {
-        case "calendar":
+        case "calendarStrip":
           return <CalendarStrip
               getCurrentMonths={this.changeTitleFromChild}
               selectedDate={this.state.selectedDate}
@@ -68,6 +79,41 @@ export class Card extends React.Component<Props, State> {
             />
         case "habitList":
           return <HabitList selectedDate={this.props.data} navigation={this.props.navigation}/>;
+        case 'calendar':
+          return <CalendarList
+                  onDayPress={(day) => {console.log('selected day', day)}}
+                  horizontal={true}
+                  pagingEnabled={true}
+                  markedDates={this.props.data.markedDates}
+                  markingType={'period'}
+                  // hideExtraDays={false}
+                  // Specify theme properties to override specific styles for calendar parts. Default = {}
+                  theme={{
+                    backgroundColor: DarkTheme.PRIMARY_COLOR,
+                    calendarBackground: DarkTheme.PRIMARY_COLOR,
+                    textSectionTitleColor: '#b6c1cd',
+                    selectedDayBackgroundColor: '#00adf5',
+                    selectedDayTextColor: '#ffffff',
+                    todayTextColor: this.props.data.color,
+                    dayTextColor: 'white',
+                    textDisabledColor: '#d9e1e8',
+                    dotColor: '#00adf5',
+                    selectedDotColor: '#ffffff',
+                    arrowColor: 'grey',
+                    disabledArrowColor: '#d9e1e8',
+                    monthTextColor: 'white',
+                    indicatorColor: 'blue',
+                    // textDayFontFamily: 'monospace',
+                    // textMonthFontFamily: 'monospace',
+                    // textDayHeaderFontFamily: 'monospace',
+                    textDayFontWeight: '300',
+                    textMonthFontWeight: '400',
+                    textDayHeaderFontWeight: '300',
+                    textDayFontSize: 16,
+                    textMonthFontSize: 16,
+                    textDayHeaderFontSize: 16
+                  }}
+                />
         default:
           return <View>Reload...</View>;
       }

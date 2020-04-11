@@ -81,7 +81,8 @@ export class HabitList extends React.Component<Props, State> {
                 <View style={this.styles.rowFront}>
                   <HabitListDetail 
                     key={data.item.id}
-                    checked={data.item.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.date), 'day') && x.type == StatusLogType.Complete) > -1}
+                    navigation={this.props.navigation}
+                    checked={data.item.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.createdAt), 'day') && x.type == StatusLogType.Complete) > -1}
                     selectedDate={this.props.selectedDate}
                     habit={data.item}
                     bottomDivider={data.index != this.state.habits.length - 1}

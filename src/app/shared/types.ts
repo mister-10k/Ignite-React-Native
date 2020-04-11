@@ -38,6 +38,7 @@ export interface Action {
 }
 
 export type RootStackParamList = {
+    Habit: {};
     AddEditHabit: { };
 };
 
@@ -47,6 +48,6 @@ export enum StatusLogType {
 }
 
 export interface StatusLog {
-    date: moment.Moment,
+    createdAt: moment.Moment,
     type: StatusLogType
 }
