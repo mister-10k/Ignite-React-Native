@@ -48,6 +48,6 @@ export enum StatusLogType {
 }
 
 export interface StatusLog {
-    createdAt: moment.Moment,
+    date: moment.Moment,
     type: StatusLogType
 }

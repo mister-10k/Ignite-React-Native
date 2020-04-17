@@ -42,7 +42,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
       }
 
       if (!prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
-        const completedForDate = this.props.habit.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.createdAt), 'day') && x.type == StatusLogType.Complete) > -1;
+        const completedForDate = this.props.habit.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.date), 'day') && x.type == StatusLogType.Complete) > -1;
 
         if (this.state.checked != completedForDate) {
           this.setState({checked: completedForDate});
@@ -57,7 +57,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
       }
 
       for (let i = 0; i < sl1.length; i++) {
-        if (!(moment(sl1[i].createdAt).isSame(moment(sl2[i].createdAt), 'day') && sl1[i].type == sl2[i].type)) {
+        if (!(moment(sl1[i].date).isSame(moment(sl2[i].date), 'day') && sl1[i].type == sl2[i].type)) {
           return false;
         }
       }
@@ -72,12 +72,12 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
       const index = habits.findIndex(x => x.id == this.props.habit.id);
 
       if (newState) {
-        habits[index].statusLog.push({ createdAt: this.props.selectedDate, type: StatusLogType.Complete});
-        habits[index].statusLog.sort((a, b) => moment(a.createdAt).diff(moment(b.createdAt)))
+        habits[index].statusLog.push({ date: this.props.selectedDate, type: StatusLogType.Complete});
+        habits[index].statusLog.sort((a, b) => moment(a.date).diff(moment(b.date)))
         await AsyncStorage.setItem('habits', JSON.stringify(habits));
       } else {
-        const filteredDates = habits[index].statusLog.filter(x => !moment(x.createdAt).isSame(this.props.selectedDate, 'day'));
-        habits[index].statusLog = filteredDates.sort((a, b) => moment(a.createdAt).diff(moment(b.createdAt)));
+        const filteredDates = habits[index].statusLog.filter(x => !moment(x.date).isSame(this.props.selectedDate, 'day'));
+        habits[index].statusLog = filteredDates.sort((a, b) => moment(a.date).diff(moment(b.date)));
         await AsyncStorage.setItem('habits', JSON.stringify(habits));
       }
 
@@ -92,24 +92,24 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
 
         const tempDate = moment(this.props.selectedDate);
         let streak = 0;
-        let streaking = statusLog.findIndex(x => moment(x.createdAt).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+        let streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
         if (!streaking) { // if not from selected date then try day before
           tempDate.subtract(1, 'days');
-          streaking = statusLog.findIndex(x => moment(x.createdAt).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+          streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
         }
 
         if (streaking) {
           while (streaking) {
             streak++;
             tempDate.subtract(1, 'days');
-            streaking = statusLog.findIndex(x => moment(x.createdAt).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+            streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
           }
         } else {
-          const lowerDatedLogExists = statusLog.findIndex(x => moment(x.createdAt).isBefore(tempDate)) > -1;
+          const lowerDatedLogExists = statusLog.findIndex(x => moment(x.date).isBefore(tempDate)) > -1;
           while (!streaking && lowerDatedLogExists) {
             streak--;
             tempDate.subtract(1, 'days');
-            streaking = statusLog.findIndex(x => moment(x.createdAt).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+            streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
           }
         }
 
@@ -123,7 +123,7 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
           onPress={() => {
             this.props.navigation.navigate('Habit', {
               navigation: this.props.navigation,
-              habit: this.props.habit
+              habitId: this.props.habit.id
             })
           }}
         >

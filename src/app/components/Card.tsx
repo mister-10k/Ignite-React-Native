@@ -81,7 +81,7 @@ export class Card extends React.Component<Props, State> {
           return <HabitList selectedDate={this.props.data} navigation={this.props.navigation}/>;
         case 'calendar':
           return <CalendarList
-                  onDayPress={(day) => {console.log('selected day', day)}}
+                  onDayPress={async (day) => {await this.props.cb1(moment(day.dateString, 'YYYY-MM-DD'))}}
                   horizontal={true}
                   pagingEnabled={true}
                   markedDates={this.props.data.markedDates}
