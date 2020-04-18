@@ -5,9 +5,10 @@ import { CheckBox } from 'react-native-elements';
 import { DarkTheme } from "../shared/themes/Dark";
 import moment from "moment";
 import * as Haptics from 'expo-haptics';
+import { DataShareService } from "../services/DataShare.service";
 
 
-interface HabitListDetailProp {
+interface Props {
   habit: Habit;
   bottomDivider: boolean;
   checked: boolean;
@@ -20,7 +21,7 @@ interface HabitListDetailState {
   streak: number
 }
 
-export class HabitListDetail extends React.Component<HabitListDetailProp, HabitListDetailState> {
+export class HabitListDetail extends React.Component<Props, HabitListDetailState> {
     hapticOptions = {
       enableVibrateFallback: true,
       ignoreAndroidSystemSettings: false
@@ -32,38 +33,30 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
 
       this.state = {
         checked: this.props.checked,
-        streak: this.getStatusLogStreak(this.props.habit.statusLog)
+        streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, this.props.selectedDate)
       };
     }
 
     componentDidUpdate(prevProps) {
-      if (!this.sameStatusLogs(this.props.habit.statusLog, prevProps.habit.statusLog) || !prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
-        this.setState({streak: this.getStatusLogStreak(this.props.habit.statusLog)});
+      if (!DataShareService.sameStatusLogs(this.props.habit.statusLog, prevProps.habit.statusLog) || !prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
+        this.setState({streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, this.props.selectedDate)});
+
+        this.changeCheckedOnUpdate();
       }
 
       if (!prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
-        const completedForDate = this.props.habit.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.date), 'day') && x.type == StatusLogType.Complete) > -1;
-
-        if (this.state.checked != completedForDate) {
-          this.setState({checked: completedForDate});
-        }
-
+        this.changeCheckedOnUpdate();
       }
     }
 
-    sameStatusLogs(sl1: Array<StatusLog>, sl2: Array<StatusLog>): boolean {
-      if (sl1.length != sl2.length) {
-        return false;
-      }
+    changeCheckedOnUpdate() {
+      const completedForDate = this.props.habit.statusLog.findIndex(x => this.props.selectedDate.isSame(moment(x.date), 'day') && x.type == StatusLogType.Complete) > -1;
 
-      for (let i = 0; i < sl1.length; i++) {
-        if (!(moment(sl1[i].date).isSame(moment(sl2[i].date), 'day') && sl1[i].type == sl2[i].type)) {
-          return false;
-        }
+      if (this.state.checked != completedForDate) {
+        this.setState({checked: completedForDate});
       }
-
-      return true;
     }
+
 
    checkUnceck = async () => {
       await Haptics.selectionAsync();
@@ -81,39 +74,8 @@ export class HabitListDetail extends React.Component<HabitListDetailProp, HabitL
         await AsyncStorage.setItem('habits', JSON.stringify(habits));
       }
 
-      this.setState({streak: this.getStatusLogStreak(habits[index].statusLog)});
+      this.setState({streak: DataShareService.getStatusLogStreak(habits[index].statusLog, this.props.selectedDate)});
       this.setState({checked: !this.state.checked})
-    }
-
-    getStatusLogStreak(statusLog: Array<StatusLog>): number {
-        if (statusLog.length == 0) {
-          return 0;
-        }
-
-        const tempDate = moment(this.props.selectedDate);
-        let streak = 0;
-        let streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
-        if (!streaking) { // if not from selected date then try day before
-          tempDate.subtract(1, 'days');
-          streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
-        }
-
-        if (streaking) {
-          while (streaking) {
-            streak++;
-            tempDate.subtract(1, 'days');
-            streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
-          }
-        } else {
-          const lowerDatedLogExists = statusLog.findIndex(x => moment(x.date).isBefore(tempDate)) > -1;
-          while (!streaking && lowerDatedLogExists) {
-            streak--;
-            tempDate.subtract(1, 'days');
-            streaking = statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
-          }
-        }
-
-        return streak;
     }
 
     render() {  

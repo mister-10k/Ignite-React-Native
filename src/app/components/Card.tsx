@@ -6,6 +6,7 @@ import moment from 'moment';
 import { DarkTheme } from "../shared/themes/Dark";
 import * as Haptics from 'expo-haptics';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
+import { HabitStats } from "./HabitStats";
 
 LocaleConfig.locales['IG'] = {
   monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -22,6 +23,7 @@ interface Props {
   componentType: string;
   data?: any;
   paddingVertical?: number;
+  marginTop?: number;
   navigation?;
   cb1?; // callback1 (optional)
   cb2?; // callback2 (optional)
@@ -114,6 +116,8 @@ export class Card extends React.Component<Props, State> {
                     textDayHeaderFontSize: 16
                   }}
                 />
+        case "habitStats":
+          return <HabitStats/>;
         default:
           return <View>Reload...</View>;
       }
@@ -121,7 +125,7 @@ export class Card extends React.Component<Props, State> {
 
     styles = StyleSheet.create({
       container: {
-        marginTop: 30
+        marginTop: this.props.marginTop != null ? this.props.marginTop : 30
       },
       containerInner: {
         paddingVertical: this.props.paddingVertical != null ? this.props.paddingVertical : 10,

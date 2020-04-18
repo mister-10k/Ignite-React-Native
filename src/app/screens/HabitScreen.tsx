@@ -5,6 +5,7 @@ import { Card } from "../components/Card";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList, Habit, StatusLog, StatusLogType } from "../shared/types";
 import moment from "moment";
+import { HabitStats } from "../components/HabitStats";
 
 type NavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -124,6 +125,12 @@ export class HabitScreen extends React.Component<Props, State> {
                     data={{color: this.state.habit.color, markedDates: this.state.markedDates}}
                     cb1={this.dateSelected}
                   />
+                  <HabitStats habit={this.state.habit}/>
+                  {/* <Card
+                    title={'Stats'}
+                    componentType={"habitStats"}
+                    paddingVertical={0}
+                  /> */}
 
               </ScrollView>     
             </View>

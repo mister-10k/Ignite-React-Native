@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions } from "react-native";
 import { DarkTheme } from "../shared/themes/Dark";
 
-interface BottomSheetHeaderProp {
+interface Props {
     title: string;
     leftBtnName?: string;
     rightBtnName?: string;
     closeBottomSheet: () => void;
 }
 
-export class NoteBottomSheet extends React.Component<BottomSheetHeaderProp> {
+export class NoteBottomSheet extends React.Component<Props> {
     rightBtnClicked() {
 
     }
