@@ -7,6 +7,7 @@ import { DarkTheme } from "../shared/themes/Dark";
 import * as Haptics from 'expo-haptics';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { HabitStats } from "./HabitStats";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 LocaleConfig.locales['IG'] = {
   monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -21,10 +22,12 @@ LocaleConfig.defaultLocale = 'IG';
 interface Props {
   title: string;
   componentType: string;
+  actions?: Array<string>;
   data?: any;
   paddingVertical?: number;
   marginTop?: number;
   navigation?;
+  actionPressed?: (nextAction:string) => void;
   cb1?; // callback1 (optional)
   cb2?; // callback2 (optional)
   cb3?; // callbacl3 (optional)
@@ -33,15 +36,19 @@ interface Props {
 interface State {
   title: string;
   selectedDate: string;
+  currentAction: string;
 }
 
 export class Card extends React.Component<Props, State> {
+  currentActionIndex = 0;
+
   constructor(props) {
     super(props);
     
     this.state = {
       title: this.props.title,
-      selectedDate: moment().format('YYYY-MM-DD')
+      selectedDate: moment().format('YYYY-MM-DD'),
+      currentAction: this.props.actions && this.props.actions.length > 0 ? this.props.actions[0] : ''
     };
   }
 
@@ -49,10 +56,30 @@ export class Card extends React.Component<Props, State> {
     this.setState({title: title});
   }
 
+  onActionPress() {
+    if (this.currentActionIndex != this.props.actions.length - 1) {
+      this.currentActionIndex++;
+    } else {
+      this.currentActionIndex = 0;
+    }
+
+    this.setState({ currentAction: this.props.actions[this.currentActionIndex]});
+  }
+
   render() {  
     return (
       <View style={this.styles.container}>
-        <Text style={this.styles.title}>{this.state.title.toUpperCase()}</Text>
+        <View style={this.styles.header}>
+          <Text style={this.styles.title}>{this.state.title.toUpperCase()}</Text>
+          {
+            this.props.actions &&
+            <TouchableOpacity 
+              style={this.styles.actions}
+              onPress={() => {this.onActionPress()}}>
+                <Text style={this.styles.actionsText}>{this.state.currentAction.toUpperCase()}</Text>
+            </TouchableOpacity>
+          }
+        </View>
         <View style={this.styles.containerInner}>
           {this.factory()}
         </View>
@@ -116,8 +143,6 @@ export class Card extends React.Component<Props, State> {
                     textDayHeaderFontSize: 16
                   }}
                 />
-        case "habitStats":
-          return <HabitStats/>;
         default:
           return <View>Reload...</View>;
       }
@@ -135,10 +160,22 @@ export class Card extends React.Component<Props, State> {
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(133,133,134,0.1)',
       },
+      header: {
+        flex: 1,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+      },
       title: {
         marginLeft: 10,
         marginBottom: 5,
-        color: 'white'
+        color: 'grey'
+      },
+      actions: {
+        marginRight: 10,
+        marginBottom: 5,
+      },
+      actionsText: {
+        color: 'white',
       }
     });
   }

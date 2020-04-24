@@ -3,7 +3,7 @@ import { View, ScrollView, AsyncStorage } from "react-native";
 import { DarkTheme } from "../shared/themes/Dark";
 import { Card } from "../components/Card";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Habit, StatusLog, StatusLogType } from "../shared/types";
+import { RootStackParamList, Habit, StatusLog, StatusLogType, CardAction } from "../shared/types";
 import moment from "moment";
 import { HabitStats } from "../components/HabitStats";
 
@@ -120,6 +120,7 @@ export class HabitScreen extends React.Component<Props, State> {
                 showsVerticalScrollIndicator={false} >
                   <Card
                     title={'Calendar'}
+                    // actions={[CardAction.Monthly, CardAction.Weekly]}
                     componentType={"calendar"}
                     paddingVertical={0}
                     data={{color: this.state.habit.color, markedDates: this.state.markedDates}}

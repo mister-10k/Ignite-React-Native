@@ -51,3 +51,8 @@ export interface StatusLog {
     date: moment.Moment,
     type: StatusLogType
 }
+
+export enum CardAction {
+    Weekly = 'Weekly',
+    Monthly = 'Monthly'
+}
