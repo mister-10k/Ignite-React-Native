@@ -3,7 +3,7 @@ import { View, ScrollView, AsyncStorage } from "react-native";
 import { DarkTheme } from "../shared/themes/Dark";
 import { Card } from "../components/Card";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Habit, StatusLog, StatusLogType, CardAction } from "../shared/types";
+import { RootStackParamList, Habit, StatusLog, StatusLogType, CardAction, ChartType } from "../shared/types";
 import moment from "moment";
 import { HabitStats } from "../components/HabitStats";
 
@@ -120,18 +120,23 @@ export class HabitScreen extends React.Component<Props, State> {
                 showsVerticalScrollIndicator={false} >
                   <Card
                     title={'Calendar'}
-                    // actions={[CardAction.Monthly, CardAction.Weekly]}
                     componentType={"calendar"}
                     paddingVertical={0}
                     data={{color: this.state.habit.color, markedDates: this.state.markedDates}}
                     cb1={this.dateSelected}
                   />
+
                   <HabitStats habit={this.state.habit}/>
-                  {/* <Card
-                    title={'Stats'}
-                    componentType={"habitStats"}
+
+                  
+                  <Card
+                    title={''}
+                    marginTop={60}
+                    actions={[CardAction.Weekly, CardAction.Monthly]}
+                    componentType={"chart"}
                     paddingVertical={0}
-                  /> */}
+                    data={{title: "Completion Rate",chartType: ChartType.CompletionRate, habitId: this.state.habit.id}}
+                  />
 
               </ScrollView>     
             </View>

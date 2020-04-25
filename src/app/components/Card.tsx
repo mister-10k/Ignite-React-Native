@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { CalendarList, LocaleConfig } from 'react-native-calendars';
 import { HabitStats } from "./HabitStats";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Chart } from "./Chart";
 
 LocaleConfig.locales['IG'] = {
   monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -52,7 +53,7 @@ export class Card extends React.Component<Props, State> {
     };
   }
 
-  changeTitleFromChild = (title: string) => {
+  changeCardTitle = (title: string) => {
     this.setState({title: title});
   }
 
@@ -91,7 +92,7 @@ export class Card extends React.Component<Props, State> {
       switch (this.props.componentType) {
         case "calendarStrip":
           return <CalendarStrip
-              getCurrentMonths={this.changeTitleFromChild}
+              getCurrentMonths={this.changeCardTitle}
               selectedDate={this.state.selectedDate}
               onPressDate={async (date) => {
                 await Haptics.selectionAsync();
@@ -143,6 +144,13 @@ export class Card extends React.Component<Props, State> {
                     textDayHeaderFontSize: 16
                   }}
                 />
+        case 'chart':
+          return <Chart 
+                    chartInfo={this.props.data}
+                    currentAction={this.state.currentAction}
+                    changeCardTitle={this.changeCardTitle}
+                    >
+                 </Chart>
         default:
           return <View>Reload...</View>;
       }

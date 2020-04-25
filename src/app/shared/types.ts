@@ -54,5 +54,16 @@ export interface StatusLog {
 
 export enum CardAction {
     Weekly = 'Weekly',
-    Monthly = 'Monthly'
+    Monthly = 'Monthly',
+    AllTime = 'AllTime'
+}
+
+export enum ChartType {
+    CompletionRate = 'CompletionRate'
+}
+
+export interface ChartInfo {
+    title: string
+    chartType: string;
+    habitId?: string;
 }

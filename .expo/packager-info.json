@@ -1,10 +1,10 @@
 {
-  "devToolsPort": 19002,
+  "devToolsPort": 19003,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 3550,
+  "packagerPid": 13216,
   "expoServerNgrokUrl": "https://5t-vp3.anonymous.ignite.exp.direct",
   "packagerNgrokUrl": "https://packager.5t-vp3.anonymous.ignite.exp.direct",
-  "ngrokPid": 3561,
+  "ngrokPid": 13226,
   "webpackServerPort": null
 }
