@@ -27,6 +27,7 @@ interface Props {
   data?: any;
   paddingVertical?: number;
   marginTop?: number;
+  marginBottom?: number;
   navigation?;
   actionPressed?: (nextAction:string) => void;
   cb1?; // callback1 (optional)
@@ -158,7 +159,8 @@ export class Card extends React.Component<Props, State> {
 
     styles = StyleSheet.create({
       container: {
-        marginTop: this.props.marginTop != null ? this.props.marginTop : 30
+        marginTop: this.props.marginTop != null ? this.props.marginTop : 30,
+        marginBottom: this.props.marginBottom != null ? this.props.marginBottom : 30
       },
       containerInner: {
         paddingVertical: this.props.paddingVertical != null ? this.props.paddingVertical : 10,

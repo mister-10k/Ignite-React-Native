@@ -46,7 +46,6 @@ export class HabitStats extends React.Component<Props, State> {
 
     styles = StyleSheet.create({
       container: {
-        marginTop: 60,
         height: 60,
         flex: 1,
         flexDirection: 'row',

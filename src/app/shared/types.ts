@@ -65,5 +65,5 @@ export enum ChartType {
 export interface ChartInfo {
     title: string
     chartType: string;
-    habitId?: string;
+    habit?: Habit;
 }

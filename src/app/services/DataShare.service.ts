@@ -1,4 +1,4 @@
-import { StatusLog, StatusLogType } from "../shared/types";
+import { StatusLog, StatusLogType, Habit } from "../shared/types";
 import moment, { Moment } from "moment";
 
 export class DataShareService {
@@ -81,5 +81,53 @@ export class DataShareService {
       }
 
       return true;
+    }
+
+    // currently skips are being addded to completion rate percentage
+    public static getCompletionRatesByWeek(weekRanges: Array<{startOfWeek: moment.Moment, endOfWeek: moment.Moment}>, habit: Habit) {      
+      let data = [];
+
+      for (let i = 0; i < weekRanges.length; i++) {
+        let completedDaysForRange = 0;
+        let percentageComplete = 0;
+
+        habit.statusLog.forEach(statusLog => {
+          if (weekRanges[i].startOfWeek.isSameOrBefore(statusLog.date, 'day') && weekRanges[i].endOfWeek.isSameOrAfter(statusLog.date, 'day')) {
+            completedDaysForRange++;
+          }
+        });
+
+        percentageComplete = Math.round((completedDaysForRange/(weekRanges[i].endOfWeek.diff(weekRanges[i].startOfWeek, 'days')+1))*100);
+        
+        data.push({ index: i, x: weekRanges[i].startOfWeek.format('MMM Do') + ' -\n' +  weekRanges[i].endOfWeek.format('MMM Do'), y: percentageComplete, label: percentageComplete + '%'});
+      }
+
+      return data;
+    }
+
+    // currently skips are being addded to completion rate percentage
+    public static getCompletionRatesByMonth(monthsRange: Array<moment.Moment>, habit: Habit) {
+      let data = [];
+
+      for (let i = 0; i < monthsRange.length; i++) {
+        let completedDaysForRange = 0;
+        let percentageComplete = 0;
+
+        const startDate = moment(monthsRange[i]);
+        const endDate = moment(monthsRange[i]).endOf('month');
+
+        habit.statusLog.forEach(statusLog => {
+          if (startDate.isSameOrBefore(statusLog.date, 'day') && endDate.isSameOrAfter(statusLog.date, 'day')) {
+            completedDaysForRange++;
+          }
+        });
+
+        percentageComplete = Math.round((completedDaysForRange/(endDate.diff(startDate, 'days')+1))*100);
+
+        data.push({ index: i, x: monthsRange[i].format('MMM YYYY'), y: percentageComplete, label: percentageComplete + '%'});
+      }
+
+
+      return data;
     }
 }

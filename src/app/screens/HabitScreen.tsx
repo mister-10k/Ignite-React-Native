@@ -120,6 +120,7 @@ export class HabitScreen extends React.Component<Props, State> {
                 showsVerticalScrollIndicator={false} >
                   <Card
                     title={'Calendar'}
+                    marginBottom={60}
                     componentType={"calendar"}
                     paddingVertical={0}
                     data={{color: this.state.habit.color, markedDates: this.state.markedDates}}
@@ -135,7 +136,7 @@ export class HabitScreen extends React.Component<Props, State> {
                     actions={[CardAction.Weekly, CardAction.Monthly]}
                     componentType={"chart"}
                     paddingVertical={0}
-                    data={{title: "Completion Rate",chartType: ChartType.CompletionRate, habitId: this.state.habit.id}}
+                    data={{title: "Completion Rate",chartType: ChartType.CompletionRate, habit: this.state.habit}}
                   />
 
               </ScrollView>     
