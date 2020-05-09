@@ -33,13 +33,13 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
 
       this.state = {
         checked: this.props.checked,
-        streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, this.props.selectedDate)
+        streak: DataShareService.getHabitStreak(this.props.habit, this.props.selectedDate)
       };
     }
 
     componentDidUpdate(prevProps) {
       if (!DataShareService.sameStatusLogs(this.props.habit.statusLog, prevProps.habit.statusLog) || !prevProps.selectedDate.isSame(this.props.selectedDate, 'day')) {
-        this.setState({streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, this.props.selectedDate)});
+        this.setState({streak: DataShareService.getHabitStreak(this.props.habit, this.props.selectedDate)});
 
         this.changeCheckedOnUpdate();
       }

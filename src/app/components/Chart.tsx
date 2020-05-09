@@ -207,12 +207,15 @@ export class Chart extends React.Component<Props, State> {
           case ChartType.CompletionRate:
             return <VictoryChart 
                         width={Dimensions.get('window').width}
-                        // animate={{duration: 200}}
+                        animate={{duration: 200}}
                     >
                         <VictoryBar
                             data={this.state.chartData}
                             barWidth={40}
                             style={{ data: { ... this.completionRateColorSwitcher }, labels: { fill: 'grey' }, }}
+                            labels={({ datum }) => {
+                                return Math.round(datum.y) + '%'; //math.round is also used here for animation numbers
+                            }}
                         />
                         <VictoryAxis style={{ axis: {stroke: "none"} }} />
                         <VictoryAxis style={{ axis: {stroke: "none"}, tickLabels: { fill: "grey" } }}/>

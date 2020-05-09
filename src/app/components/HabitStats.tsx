@@ -20,17 +20,17 @@ export class HabitStats extends React.Component<Props, State> {
       super(props);
 
       this.state = {
-        streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, moment()),
+        streak: DataShareService.getHabitStreak(this.props.habit, moment()),
         completions: DataShareService.getStatusLogCompletionsCount(this.props.habit.statusLog),
-        best: DataShareService.getStatusLogBestCount(this.props.habit.statusLog)
+        best: DataShareService.getHabitBestCount(this.props.habit)
       };
     }
 
     componentDidUpdate(prevProps) {
       if (!DataShareService.sameStatusLogs(this.props.habit.statusLog, prevProps.habit.statusLog)) {
-        this.setState({ streak: DataShareService.getStatusLogStreak(this.props.habit.statusLog, moment()) });
+        this.setState({ streak: DataShareService.getHabitStreak(this.props.habit, moment()) });
         this.setState({ completions: DataShareService.getStatusLogCompletionsCount(this.props.habit.statusLog) });
-        this.setState({ best: DataShareService.getStatusLogBestCount(this.props.habit.statusLog) })
+        this.setState({ best: DataShareService.getHabitBestCount(this.props.habit) })
       }
     }
     
