@@ -5,22 +5,25 @@ export class DataShareService {
     constructor() {}
 
     public static getHabitStreak(habit: Habit, endDate: moment.Moment): number {
+        const start = moment();
         if (habit.statusLog.length == 0) {
           return 0;
         }
+
         const tempDate = moment(endDate);
         const map = new Map<Days,number>();
         this.getDaysBetweenFrequencies(map, habit.frequency);      
         let streak = 0;
 
         while (!habit.frequency.includes(tempDate.day())) {
-          tempDate.subtract(1, 'day');
+          tempDate.subtract(1, 'days');
         }   
 
         let streaking = habit.statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+
         if (!streaking) { // if not from selected date then try day before
           const daysToSubtract = map.get(tempDate.day());
-          tempDate.subtract(daysToSubtract, 'day');
+          tempDate.subtract(daysToSubtract, 'days');
           streaking = habit.statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
         }
 
@@ -28,40 +31,22 @@ export class DataShareService {
           while (streaking) {
             streak++;
             const daysToSubtract = map.get(tempDate.day());
-            tempDate.subtract(daysToSubtract, 'day');
+            tempDate.subtract(daysToSubtract, 'days');
             streaking = habit.statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
           }
         } else {
-          const lowerDatedLogExists = habit.statusLog.findIndex(x => moment(x.date).isBefore(tempDate)) > -1;
-          while (!streaking && lowerDatedLogExists) {
-            streak--;
-            const daysToSubtract = map.get(tempDate.day());
-            tempDate.subtract(daysToSubtract, 'day');
-            streaking = habit.statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+          let lowerDatedLogExists = habit.statusLog.findIndex(x => moment(x.date).isBefore(tempDate, 'day') && habit.frequency.includes(moment(x.date).day())) > -1; // avoid infinitw loop
+          if (lowerDatedLogExists) {
+            while (!streaking) {
+              streak--;
+              const daysToSubtract = map.get(tempDate.day());
+              tempDate.subtract(daysToSubtract, 'days');
+              streaking = habit.statusLog.findIndex(x => moment(x.date).isSame(tempDate, 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1;
+            }
           }
         }
 
-
-          // const streakDayBefore = moment(tempDate).subtract(map.get(dayNum), 'day');
-          // if (habit.statusLog.findIndex(x => streakDayBefore.isSame(moment(x.date), 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1 || !streaking && firstStreakDay) {
-          //   if (habit.statusLog.findIndex(x => tempDate.isSame(moment(x.date), 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1) {
-          //     firstStreakDay = false; // used for the first streak day only
-          //     if (!streaking) {
-          //       streaking = true;
-          //       streak = 1;
-          //     } else {
-          //       streak++;
-          //     }
-          //   }          
-          // } else {
-          //   if (streaking) {
-          //     streak = -1;
-          //   } else {
-          //     streak--;
-          //   }
-          // }
-
-
+      console.log(habit.name + ' DataShareService.getHabitStreak time: ' + moment().diff(start, 'milliseconds') + ' milliseconds.');
       return streak;
     }
 
@@ -88,7 +73,7 @@ export class DataShareService {
         const dayNum = tempDate.day();
 
         if (habit.frequency.findIndex(x => x == dayNum) > -1) {
-          const streakDayBefore = tempDate.subtract(map.get(dayNum), 'day');
+          const streakDayBefore = tempDate.subtract(map.get(dayNum), 'days');
           if (habit.statusLog.findIndex(x => streakDayBefore.isSame(moment(x.date), 'day') && (x.type == StatusLogType.Complete || x.type == StatusLogType.Skip)) > -1 || firstStreakDay) {
             firstStreakDay = false; // used for the first streak day only
             streak++;
@@ -124,8 +109,9 @@ export class DataShareService {
           map.set(frequency[i], frequency[i] - frequency[j]);
         } else {
           j = frequency.length - 1;
-          const tempDate1 = moment().day(frequency[i]);
-          const tempDate2 = moment().day(frequency[j] - 7);
+          const m = moment();
+          const tempDate1 = moment(m).day(frequency[i]);
+          const tempDate2 = moment(m).day(frequency[j] - 7);
           const daysBefore = tempDate1.diff(tempDate2, 'day');
           map.set(frequency[i], daysBefore);
         }
@@ -192,5 +178,32 @@ export class DataShareService {
 
 
       return data;
+    }
+
+    public static getFrequencyAbbreviations(frequency: Array<Days>): string {
+      let abbreviations = '';
+      frequency.forEach((f,index) => {
+        let letter = '';
+        if (f == Days.Sunday || f == Days.Saturday) {
+          letter = 'S';
+        } else if (f == Days.Monday) {
+          letter = 'M'
+        } else if (f == Days.Tuesday || f == Days.Thursday) {
+          letter = 'T'
+        } else if (f == Days.Wednesday) {
+          letter = 'W'
+        } else { // Friday
+          letter = 'F'
+        }
+
+
+        if (index == 0) {
+          abbreviations += letter;
+        } else {
+          abbreviations +=  ',' + letter;
+        }
+      });
+
+      return abbreviations;
     }
 }

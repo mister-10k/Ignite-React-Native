@@ -84,13 +84,13 @@ export class Chart extends React.Component<Props, State> {
 
     decrementDateRange() {
         if (this.currentAction == CardAction.Weekly) {
-            const startDate = this.weekRanges[0].startOfWeek.subtract(1, 'day');
+            const startDate = this.weekRanges[0].startOfWeek.subtract(1, 'days');
             this.decrementWeekRanges(startDate);
 
             const lbl = this.weekRanges[0].startOfWeek.format('MMM Do YYYY') + ' - ' + this.weekRanges[this.weekRanges.length - 1].endOfWeek.format('MMM Do YYYY');
             this.setState({ dateRangeLabel: lbl });
         } else {
-            const startDate = this.monthsRange[0].subtract(1, 'day');
+            const startDate = this.monthsRange[0].subtract(1, 'days');
             this.decrementMonthRanges(startDate);
 
             const lbl = this.monthsRange[0].format('MMM YYYY') + ' - ' + this.monthsRange[this.monthsRange.length - 1].format('MMM YYYY');
@@ -205,21 +205,22 @@ export class Chart extends React.Component<Props, State> {
     factory() {
         switch (this.props.chartInfo.chartType) {
           case ChartType.CompletionRate:
-            return <VictoryChart 
-                        width={Dimensions.get('window').width}
-                        animate={{duration: 200}}
-                    >
-                        <VictoryBar
-                            data={this.state.chartData}
-                            barWidth={40}
-                            style={{ data: { ... this.completionRateColorSwitcher }, labels: { fill: 'grey' }, }}
-                            labels={({ datum }) => {
-                                return Math.round(datum.y) + '%'; //math.round is also used here for animation numbers
-                            }}
-                        />
-                        <VictoryAxis style={{ axis: {stroke: "none"} }} />
-                        <VictoryAxis style={{ axis: {stroke: "none"}, tickLabels: { fill: "grey" } }}/>
-                    </VictoryChart>
+            return 
+            // <VictoryChart 
+            //             width={Dimensions.get('window').width}
+            //             animate={{duration: 200}}
+            //         >
+            //             <VictoryBar
+            //                 data={this.state.chartData}
+            //                 barWidth={40}
+            //                 style={{ data: { ... this.completionRateColorSwitcher }, labels: { fill: 'grey' }, }}
+            //                 labels={({ datum }) => {
+            //                     return Math.round(datum.y) + '%'; //math.round is also used here for animation numbers
+            //                 }}
+            //             />
+            //             <VictoryAxis style={{ axis: {stroke: "none"} }} />
+            //             <VictoryAxis style={{ axis: {stroke: "none"}, tickLabels: { fill: "grey" } }}/>
+            //         </VictoryChart>
           default:
             return <View>Reload...</View>;
         }

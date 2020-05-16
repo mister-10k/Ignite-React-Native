@@ -74,7 +74,7 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
         await AsyncStorage.setItem('habits', JSON.stringify(habits));
       }
 
-      this.setState({streak: DataShareService.getStatusLogStreak(habits[index].statusLog, this.props.selectedDate)});
+      this.setState({streak: DataShareService.getHabitStreak(habits[index], this.props.selectedDate)});
       this.setState({checked: !this.state.checked})
     }
 
@@ -89,7 +89,7 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
             })
           }}
         >
-            <View style={this.styles.iconWrapper}>
+            <View style={this.styles.checkBoxWrapper}>
               { this.state.checked && <View style={this.styles.checkedBackground}></View> }
               
               <CheckBox
@@ -106,19 +106,16 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
               />
             </View>
 
-            <View style={this.styles.habitStatWrapper}>
+            <View style={this.styles.habitNameStreakWrapper}>
 
                 <View style={this.styles.habitNameWrapper}>
-                    <Text style={this.styles.habitName}>{this.props.habit.name}</Text>
+                    <Text style={this.styles.habitName} numberOfLines={1}>{this.props.habit.name}</Text>
                 </View>
 
                 <View style={this.styles.statusIconsWrapper}>
                     {
                       this.state.streak < 0 &&
                       <View style={this.styles.streakWrapper}>
-                          {/* <View style={{marginTop: 3}}>
-                            <MaterialCommunityIcons name="power-sleep" size={25} color="#858586" />
-                          </View> */}
                           <Text style={this.styles.streakNumber}>{Math.abs(this.state.streak)}</Text>
                           <Text style={this.styles.emoji}>😴</Text>
                       </View>
@@ -130,7 +127,6 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
                     {
                       this.state.streak > 0 &&
                       <View style={this.styles.streakWrapper}>
-                        {/* <Ionicons name="md-flame" size={25} color="#CD5C5C" /> */}
                         <Text style={[this.styles.streakNumber, {marginTop: 2}]}>{this.state.streak}</Text>
                         <Text style={this.styles.emoji}>🔥</Text>
                       </View> 
@@ -146,17 +142,18 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
           container: {
             height: 60,
             flex: 1,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            paddingRight: 10
           },
 
-          habitStatWrapper: {
-            width: '88%',
+          habitNameStreakWrapper: {
+            width: '88%',            
             borderBottomWidth: this.props.bottomDivider ? 1 : 0,
             borderColor: 'rgba(133,133,134,0.1)',
             flexDirection: 'row',
           },
           
-          iconWrapper: {
+          checkBoxWrapper: {
             width: 50,
             flex: 1,
             justifyContent: 'center',
@@ -172,17 +169,17 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
           },
 
           streakWrapper: {
-            flex: 0.5,
+            flex: 1,
             flexDirection: 'row',
             alignSelf: 'center',
-            width: 5
+            justifyContent: 'flex-end'
           },
 
           streakNumber: {
             // marginTop: 7,
             marginRight: 5,
             color: "#858586",
-            fontSize: 16
+            fontSize: 16,
           },
 
           emoji: {
@@ -196,7 +193,7 @@ export class HabitListDetail extends React.Component<Props, HabitListDetailState
 
           habitName : {
             // fontWeight: 'bold'
-            color: DarkTheme.PRIMARY_TEXT_COLOR
+            color: DarkTheme.PRIMARY_TEXT_COLOR,
           },
 
           statusIconsWrapper: {

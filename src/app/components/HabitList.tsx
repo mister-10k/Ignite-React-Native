@@ -51,6 +51,9 @@ export class HabitList extends React.Component<Props, State> {
     getHabits() {
       AsyncStorage.getItem('habits').then((habitsJSONString) => {
         let habits = JSON.parse(habitsJSONString) as Array<Habit>;
+        if (habits == null) {
+          habits = [];
+        }
         const dayIndex = this.props.selectedDate.day();
         habits = habits.filter(habit => habit.frequency.includes(dayIndex));
         this.setState({ habits: habits});

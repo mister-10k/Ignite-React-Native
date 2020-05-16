@@ -6,6 +6,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList, Habit, StatusLog, StatusLogType, CardAction, ChartType } from "../shared/types";
 import moment from "moment";
 import { HabitStats } from "../components/HabitStats";
+import { DataShareService } from "../services/DataShare.service";
 
 type NavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -25,13 +26,14 @@ interface State {
 }
 
 export class HabitScreen extends React.Component<Props, State> {
+    frequencyAbbreviations: string;
     constructor(props) {
         super(props);
 
         this.state = {
           markedDates: [],
           loading: true,
-          habit: null
+          habit: null,
         };
 
         this.props.navigation.setOptions({
@@ -50,6 +52,7 @@ export class HabitScreen extends React.Component<Props, State> {
 
         this.setState({ habit: habit });
         this.setState({ markedDates: this.getMarkedDates() });
+        this.frequencyAbbreviations =  DataShareService.getFrequencyAbbreviations(habit.frequency);
 
         this.props.navigation.setOptions({
           title: habit.name,
@@ -121,6 +124,7 @@ export class HabitScreen extends React.Component<Props, State> {
                   <Card
                     title={'Calendar'}
                     marginBottom={60}
+                    actions={[this.frequencyAbbreviations]}
                     componentType={"calendar"}
                     paddingVertical={0}
                     data={{color: this.state.habit.color, markedDates: this.state.markedDates}}

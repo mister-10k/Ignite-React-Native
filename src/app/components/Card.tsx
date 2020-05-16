@@ -74,8 +74,12 @@ export class Card extends React.Component<Props, State> {
         <View style={this.styles.header}>
           <Text style={this.styles.title}>{this.state.title.toUpperCase()}</Text>
           {
-            this.props.actions &&
-            <TouchableOpacity 
+            this.props.actions && this.props.actions.length == 1 &&
+            <Text style={[this.styles.actionsText, {marginRight: 10, marginBottom: 5,}]}>{this.state.currentAction.toUpperCase()}</Text>
+          }
+          {
+            this.props.actions && this.props.actions.length > 1 &&
+            <TouchableOpacity
               style={this.styles.actions}
               onPress={() => {this.onActionPress()}}>
                 <Text style={this.styles.actionsText}>{this.state.currentAction.toUpperCase()}</Text>
@@ -185,7 +189,7 @@ export class Card extends React.Component<Props, State> {
         marginBottom: 5,
       },
       actionsText: {
-        color: 'white',
+        color: this.props.actions && this.props.actions.length == 1 ? 'grey' : 'white'
       }
     });
   }
